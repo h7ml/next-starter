@@ -1,0 +1,282 @@
+{
+  "metadata": {
+    "title": "Next Starter Template",
+    "description": "A production-ready Next.js starter template with TypeScript, Tailwind CSS, shadcn/ui, Prisma, and multi-platform deployment support."
+  },
+  "nav": {
+    "features": "Features",
+    "techStack": "Tech Stack",
+    "deploy": "Deploy",
+    "docs": "Docs",
+    "getStarted": "Get Started",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "badge": "Production Ready Template",
+    "title": "Build Modern Apps with",
+    "titleHighlight": "Next.js Starter",
+    "description": "A comprehensive starter template featuring React, TypeScript, Tailwind CSS, shadcn/ui, Prisma, and Docker. Deploy anywhere — Vercel, Cloudflare, Netlify, Railway, and more.",
+    "cta": "Get Started",
+    "viewGithub": "View on GitHub",
+    "terminal": "terminal",
+    "readyOn": "Ready on http://localhost:3000"
+  },
+  "features": {
+    "title": "Everything You Need",
+    "description": "A complete toolkit for building production-ready applications with modern best practices.",
+    "items": {
+      "fast": {
+        "title": "Lightning Fast",
+        "description": "Optimized for performance with Next.js 16, React Server Components, and edge-ready deployments."
+      },
+      "ui": {
+        "title": "Beautiful UI",
+        "description": "Pre-built components with shadcn/ui, Tailwind CSS, and smooth Framer Motion animations."
+      },
+      "database": {
+        "title": "Database Ready",
+        "description": "Prisma ORM with PostgreSQL support. Type-safe database queries out of the box."
+      },
+      "deploy": {
+        "title": "Multi-Platform Deploy",
+        "description": "Deploy to Vercel, Cloudflare, Netlify, Railway, Fly.io, Deno Deploy, or Heroku."
+      },
+      "docker": {
+        "title": "Docker Support",
+        "description": "Production-ready Dockerfile and docker-compose for containerized deployments."
+      },
+      "typeSafe": {
+        "title": "Type Safe",
+        "description": "Full TypeScript support with strict type checking and Zod validation."
+      },
+      "modular": {
+        "title": "Modular Architecture",
+        "description": "Clean project structure with separation of concerns and reusable components."
+      },
+      "cicd": {
+        "title": "CI/CD Ready",
+        "description": "GitHub Actions workflows for testing, linting, and automated deployments."
+      },
+      "dx": {
+        "title": "DX First",
+        "description": "Great developer experience with hot reload, ESLint, Prettier, and VS Code settings."
+      }
+    }
+  },
+  "techStack": {
+    "title": "Modern Tech Stack",
+    "description": "Built with the latest and most reliable technologies in the ecosystem.",
+    "codeComment": "// Example: Type-safe database query with Prisma",
+    "visitWebsite": "Visit"
+  },
+  "deploy": {
+    "title": "Deploy Anywhere",
+    "description": "Choose your preferred platform. This template is optimized for all major hosting providers.",
+    "recommended": "Recommended",
+    "deployBtn": "Deploy",
+    "dockerTitle": "Quick Start with Docker",
+    "platforms": {
+      "vercel": "Zero-config deployment with edge functions",
+      "cloudflare": "Global edge network with Workers",
+      "netlify": "Continuous deployment with serverless",
+      "railway": "Infrastructure with instant deployments",
+      "flyio": "Run apps close to users globally",
+      "deno": "Serverless at the edge"
+    }
+  },
+  "footer": {
+    "description": "A production-ready Next.js starter template with everything you need to build modern web applications.",
+    "product": "Product",
+    "resources": "Resources",
+    "legal": "Legal",
+    "documentation": "Documentation",
+    "apiReference": "API Reference",
+    "examples": "Examples",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "license": "License",
+    "copyright": "All rights reserved."
+  },
+  "docs": {
+    "title": "Documentation",
+    "description": "Everything you need to know to get started with Next Starter Template.",
+    "backHome": "Back to Home",
+    "envTitle": "Environment Variables",
+    "envDescription": "Required configuration for your application",
+    "sections": {
+      "gettingStarted": {
+        "title": "Getting Started",
+        "description": "Quick setup guide and prerequisites",
+        "items": [
+          "Clone the repository",
+          "Install dependencies with npm install",
+          "Set up environment variables",
+          "Run npm run dev to start development"
+        ]
+      },
+      "database": {
+        "title": "Database Setup",
+        "description": "Configure Prisma and PostgreSQL",
+        "items": [
+          "Update DATABASE_URL in .env",
+          "Run npx prisma generate",
+          "Run npx prisma db push",
+          "Use npx prisma studio for GUI"
+        ]
+      },
+      "structure": {
+        "title": "Project Structure",
+        "description": "Understanding the codebase layout",
+        "items": [
+          "app/ - Next.js App Router pages",
+          "components/ - Reusable UI components",
+          "lib/ - Utilities and database client",
+          "prisma/ - Database schema and migrations"
+        ]
+      },
+      "deployment": {
+        "title": "Deployment",
+        "description": "Deploy to your preferred platform",
+        "items": [
+          "Vercel: Connect repo and deploy",
+          "Docker: docker compose up -d",
+          "Fly.io: fly launch && fly deploy",
+          "Railway: Connect repo in dashboard"
+        ]
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "description": "Enter your credentials to access your account",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up",
+      "orContinueWith": "Or continue with",
+      "errors": {
+        "invalid": "Invalid email or password",
+        "required": "Email and password are required"
+      }
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Enter your details to get started",
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "terms": "I agree to the Terms of Service and Privacy Policy",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in",
+      "orContinueWith": "Or continue with",
+      "passwordHint": "At least 8 characters with uppercase, lowercase and number",
+      "errors": {
+        "emailExists": "Email already registered",
+        "passwordMismatch": "Passwords do not match",
+        "weakPassword": "Password is too weak"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "description": "Enter your email and we'll send you a reset link",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "submit": "Send reset link",
+      "submitting": "Sending...",
+      "success": "If an account exists with this email, you will receive a reset link.",
+      "backToLogin": "Back to login"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "description": "Enter your new password",
+      "password": "New Password",
+      "passwordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "submit": "Reset password",
+      "submitting": "Resetting...",
+      "success": "Password reset successfully. You can now login.",
+      "invalidToken": "Invalid or expired reset token",
+      "backToLogin": "Back to login"
+    }
+  },
+  "errors": {
+    "backHome": "Back to Home",
+    "tryAgain": "Try Again",
+    "400": {
+      "title": "Bad Request",
+      "description": "The server could not understand the request due to invalid syntax.",
+      "hint": "Please check your input and try again."
+    },
+    "401": {
+      "title": "Unauthorized",
+      "description": "You need to be authenticated to access this resource.",
+      "hint": "Please sign in to continue."
+    },
+    "403": {
+      "title": "Forbidden",
+      "description": "You don't have permission to access this resource.",
+      "hint": "Contact the administrator if you believe this is an error."
+    },
+    "404": {
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist or has been moved.",
+      "hint": "Check the URL or navigate back to the homepage."
+    },
+    "500": {
+      "title": "Server Error",
+      "description": "Something went wrong on our end. We're working to fix it.",
+      "hint": "Please try again later."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "stats": {
+      "totalPosts": "Total Posts",
+      "published": "Published",
+      "drafts": "Drafts",
+      "views": "Total Views"
+    },
+    "recentPosts": "Recent Posts",
+    "createPost": "Create Post",
+    "viewAll": "View All",
+    "noData": "No data available"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "users": "Users",
+    "posts": "Posts",
+    "settings": "Settings",
+    "analytics": "Analytics",
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Users",
+    "newUsers": "New Users (30d)",
+    "userManagement": "User Management",
+    "search": "Search users...",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "ban": "Ban",
+    "role": "Role",
+    "status": "Status",
+    "createdAt": "Created At"
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "metadata": {
+    "title": "Next 启动模板",
+    "description": "一个生产就绪的 Next.js 启动模板，包含 TypeScript、Tailwind CSS、shadcn/ui、Prisma 和多平台部署支持。"
+  },
+  "nav": {
+    "features": "功能特性",
+    "techStack": "技术栈",
+    "deploy": "部署",
+    "docs": "文档",
+    "getStarted": "快速开始",
+    "login": "登录",
+    "register": "注册",
+    "dashboard": "控制台"
+  },
+  "hero": {
+    "badge": "生产就绪模板",
+    "title": "使用以下技术构建现代应用",
+    "titleHighlight": "Next.js 启动模板",
+    "description": "一个功能完善的启动模板，包含 React、TypeScript、Tailwind CSS、shadcn/ui、Prisma 和 Docker。可部署到 Vercel、Cloudflare、Netlify、Railway 等平台。",
+    "cta": "快速开始",
+    "viewGithub": "在 GitHub 查看",
+    "terminal": "终端",
+    "readyOn": "已就绪: http://localhost:3000"
+  },
+  "features": {
+    "title": "你需要的一切",
+    "description": "一套完整的工具包，用于构建符合现代最佳实践的生产级应用。",
+    "items": {
+      "fast": {
+        "title": "极速响应",
+        "description": "通过 Next.js 16、React 服务器组件和边缘部署优化性能。"
+      },
+      "ui": {
+        "title": "精美界面",
+        "description": "预构建的 shadcn/ui 组件、Tailwind CSS 样式和流畅的 Framer Motion 动画。"
+      },
+      "database": {
+        "title": "数据库就绪",
+        "description": "Prisma ORM 搭配 PostgreSQL，开箱即用的类型安全数据库查询。"
+      },
+      "deploy": {
+        "title": "多平台部署",
+        "description": "支持部署到 Vercel、Cloudflare、Netlify、Railway、Fly.io、Deno Deploy 或 Heroku。"
+      },
+      "docker": {
+        "title": "Docker 支持",
+        "description": "生产就绪的 Dockerfile 和 docker-compose 配置，支持容器化部署。"
+      },
+      "typeSafe": {
+        "title": "类型安全",
+        "description": "完整的 TypeScript 支持，严格的类型检查和 Zod 验证。"
+      },
+      "modular": {
+        "title": "模块化架构",
+        "description": "清晰的项目结构，关注点分离，可复用组件。"
+      },
+      "cicd": {
+        "title": "CI/CD 就绪",
+        "description": "GitHub Actions 工作流，支持测试、代码检查和自动化部署。"
+      },
+      "dx": {
+        "title": "开发体验优先",
+        "description": "出色的开发体验，包含热重载、ESLint、Prettier 和 VS Code 配置。"
+      }
+    }
+  },
+  "techStack": {
+    "title": "现代技术栈",
+    "description": "使用生态系统中最新、最可靠的技术构建。",
+    "codeComment": "// 示例：使用 Prisma 进行类型安全的数据库查询",
+    "visitWebsite": "访问"
+  },
+  "deploy": {
+    "title": "随处部署",
+    "description": "选择你喜欢的平台。此模板针对所有主流托管服务商进行了优化。",
+    "recommended": "推荐",
+    "deployBtn": "部署",
+    "dockerTitle": "使用 Docker 快速开始",
+    "platforms": {
+      "vercel": "零配置部署，支持边缘函数",
+      "cloudflare": "全球边缘网络，支持 Workers",
+      "netlify": "持续部署，支持无服务器",
+      "railway": "基础设施即时部署",
+      "flyio": "让应用运行在离用户最近的地方",
+      "deno": "边缘无服务器"
+    }
+  },
+  "footer": {
+    "description": "一个生产就绪的 Next.js 启动模板，包含构建现代 Web 应用所需的一切。",
+    "product": "产品",
+    "resources": "资源",
+    "legal": "法律",
+    "documentation": "文档",
+    "apiReference": "API 参考",
+    "examples": "示例",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "license": "许可证",
+    "copyright": "保留所有权利。"
+  },
+  "docs": {
+    "title": "文档",
+    "description": "开始使用 Next 启动模板所需的一切信息。",
+    "backHome": "返回首页",
+    "envTitle": "环境变量",
+    "envDescription": "应用程序所需的配置",
+    "sections": {
+      "gettingStarted": {
+        "title": "快速开始",
+        "description": "快速设置指南和先决条件",
+        "items": ["克隆仓库", "使用 npm install 安装依赖", "设置环境变量", "运行 npm run dev 启动开发服务器"]
+      },
+      "database": {
+        "title": "数据库设置",
+        "description": "配置 Prisma 和 PostgreSQL",
+        "items": [
+          "在 .env 中更新 DATABASE_URL",
+          "运行 npx prisma generate",
+          "运行 npx prisma db push",
+          "使用 npx prisma studio 进行可视化管理"
+        ]
+      },
+      "structure": {
+        "title": "项目结构",
+        "description": "理解代码库布局",
+        "items": [
+          "app/ - Next.js App Router 页面",
+          "components/ - 可复用 UI 组件",
+          "lib/ - 工具函数和数据库客户端",
+          "prisma/ - 数据库模型和迁移"
+        ]
+      },
+      "deployment": {
+        "title": "部署",
+        "description": "部署到你喜欢的平台",
+        "items": [
+          "Vercel: 连接仓库并部署",
+          "Docker: docker compose up -d",
+          "Fly.io: fly launch && fly deploy",
+          "Railway: 在控制台连接仓库"
+        ]
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "欢迎回来",
+      "description": "输入您的凭据以访问您的账户",
+      "email": "邮箱",
+      "emailPlaceholder": "输入您的邮箱",
+      "password": "密码",
+      "passwordPlaceholder": "输入您的密码",
+      "rememberMe": "记住我",
+      "forgotPassword": "忘记密码？",
+      "submit": "登录",
+      "submitting": "登录中...",
+      "noAccount": "还没有账户？",
+      "register": "注册",
+      "orContinueWith": "或通过以下方式继续",
+      "errors": {
+        "invalid": "邮箱或密码错误",
+        "required": "请输入邮箱和密码"
+      }
+    },
+    "register": {
+      "title": "创建账户",
+      "description": "输入您的信息以开始使用",
+      "name": "姓名",
+      "namePlaceholder": "输入您的姓名",
+      "email": "邮箱",
+      "emailPlaceholder": "输入您的邮箱",
+      "password": "密码",
+      "passwordPlaceholder": "创建密码",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "确认您的密码",
+      "terms": "我同意服务条款和隐私政策",
+      "submit": "创建账户",
+      "submitting": "创建中...",
+      "hasAccount": "已有账户？",
+      "login": "登录",
+      "orContinueWith": "或通过以下方式继续",
+      "passwordHint": "至少8位，包含大小写字母和数字",
+      "errors": {
+        "emailExists": "邮箱已被注册",
+        "passwordMismatch": "两次输入的密码不一致",
+        "weakPassword": "密码强度不够"
+      }
+    },
+    "forgotPassword": {
+      "title": "忘记密码",
+      "description": "输入您的邮箱，我们将发送重置链接",
+      "email": "邮箱",
+      "emailPlaceholder": "输入您的邮箱",
+      "submit": "发送重置链接",
+      "submitting": "发送中...",
+      "success": "如果该邮箱存在账户，您将收到重置链接。",
+      "backToLogin": "返回登录"
+    },
+    "resetPassword": {
+      "title": "重置密码",
+      "description": "输入您的新密码",
+      "password": "新密码",
+      "passwordPlaceholder": "输入新密码",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "确认新密码",
+      "submit": "重置密码",
+      "submitting": "重置中...",
+      "success": "密码重置成功，您现在可以登录了。",
+      "invalidToken": "无效或已过期的重置链接",
+      "backToLogin": "返回登录"
+    }
+  },
+  "errors": {
+    "backHome": "返回首页",
+    "tryAgain": "重试",
+    "400": {
+      "title": "请求错误",
+      "description": "服务器无法理解该请求，请求语法可能存在错误。",
+      "hint": "请检查您的输入后重试。"
+    },
+    "401": {
+      "title": "未授权",
+      "description": "您需要登录才能访问此资源。",
+      "hint": "请登录后继续。"
+    },
+    "403": {
+      "title": "禁止访问",
+      "description": "您没有权限访问此资源。",
+      "hint": "如果您认为这是错误，请联系管理员。"
+    },
+    "404": {
+      "title": "页面未找到",
+      "description": "您访问的页面不存在或已被移动。",
+      "hint": "请检查网址或返回首页。"
+    },
+    "500": {
+      "title": "服务器错误",
+      "description": "我们这边出了点问题，正在努力修复中。",
+      "hint": "请稍后重试。"
+    }
+  },
+  "dashboard": {
+    "title": "控制台",
+    "welcome": "欢迎回来",
+    "overview": "概览",
+    "stats": {
+      "totalPosts": "文章总数",
+      "published": "已发布",
+      "drafts": "草稿",
+      "views": "总浏览量"
+    },
+    "recentPosts": "最近文章",
+    "createPost": "创建文章",
+    "viewAll": "查看全部",
+    "noData": "暂无数据"
+  },
+  "admin": {
+    "title": "管理面板",
+    "users": "用户",
+    "posts": "文章",
+    "settings": "设置",
+    "analytics": "分析",
+    "totalUsers": "总用户数",
+    "activeUsers": "活跃用户",
+    "newUsers": "新用户 (30天)",
+    "userManagement": "用户管理",
+    "search": "搜索用户...",
+    "actions": "操作",
+    "edit": "编辑",
+    "delete": "删除",
+    "ban": "封禁",
+    "role": "角色",
+    "status": "状态",
+    "createdAt": "创建时间"
+  }
+}
