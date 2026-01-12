@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { verifyPassword } from "@/lib/auth/password"
-import { createSession } from "@/lib/auth/session"
+import { createSession, setSessionCookie } from "@/lib/auth/session"
 import { features } from "@/lib/features"
 import { z } from "zod"
 
@@ -35,9 +35,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 创建 Session
-    await createSession(user.id)
-
-    return NextResponse.json({
+    const { token, expires } = await createSession(user.id)
+    const response = NextResponse.json({
       success: true,
       user: {
         id: user.id,
@@ -46,6 +45,8 @@ export async function POST(request: NextRequest) {
         role: user.role,
       },
     })
+    setSessionCookie(response, token, expires)
+    return response
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 })

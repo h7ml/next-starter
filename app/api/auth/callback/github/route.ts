@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getGitHubProfile, handleOAuthSignIn } from "@/lib/auth/oauth"
-import { createSession } from "@/lib/auth/session"
+import { createSession, setSessionCookie } from "@/lib/auth/session"
 import { features } from "@/lib/features"
 
 export async function GET(request: NextRequest) {
@@ -22,9 +22,10 @@ export async function GET(request: NextRequest) {
     }
 
     const user = await handleOAuthSignIn("github", profile)
-    await createSession(user.id)
-
-    return NextResponse.redirect(new URL("/dashboard", request.url))
+    const { token, expires } = await createSession(user.id)
+    const response = NextResponse.redirect(new URL("/dashboard", request.url))
+    setSessionCookie(response, token, expires)
+    return response
   } catch {
     return NextResponse.redirect(new URL("/login?error=oauth_failed", request.url))
   }

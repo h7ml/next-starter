@@ -1,3 +1,4 @@
+import type { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { db } from "@/lib/db"
 import { authConfig } from "./config"
@@ -10,7 +11,7 @@ export function generateSessionToken(): string {
 }
 
 // 创建 Session
-export async function createSession(userId: string): Promise<string> {
+export async function createSession(userId: string): Promise<{ token: string; expires: Date }> {
   if (!db) {
     throw new Error("Database not configured. Please set DATABASE_URL environment variable.")
   }
@@ -27,16 +28,23 @@ export async function createSession(userId: string): Promise<string> {
     },
   })
 
-  const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE_NAME, token, {
+  return { token, expires }
+}
+
+// 设置 Session Cookie（用于 Route Handler 响应）
+export function setSessionCookie(response: NextResponse, token: string, expires: Date) {
+  response.cookies.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     expires,
     path: "/",
   })
+}
 
-  return token
+// 清理 Session Cookie（用于 Route Handler 响应）
+export function clearSessionCookie(response: NextResponse) {
+  response.cookies.delete(SESSION_COOKIE_NAME)
 }
 
 // 获取当前 Session
