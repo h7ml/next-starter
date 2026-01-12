@@ -22,11 +22,9 @@ import type { Locale } from "@/lib/i18n/config"
 export default function EditPostPage({
   params,
 }: {
-  params: Promise<{ locale: string; id: string }>
+  params: { locale: Locale; id: string }
 }) {
   const router = useRouter()
-  const [locale, setLocale] = useState("")
-  const [postId, setPostId] = useState("")
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
   const [error, setError] = useState("")
@@ -38,13 +36,12 @@ export default function EditPostPage({
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
   })
 
+  const locale = params.locale
+  const postId = params.id
+
   useEffect(() => {
-    params.then((p) => {
-      setLocale(p.locale)
-      setPostId(p.id)
-      getDictionary(p.locale as Locale).then(setDict)
-    })
-  }, [params])
+    getDictionary(locale).then(setDict)
+  }, [locale])
 
   useEffect(() => {
     if (!postId) return

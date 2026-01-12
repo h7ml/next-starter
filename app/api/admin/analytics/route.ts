@@ -27,7 +27,15 @@ export async function GET() {
 
     for (let i = 0; i < 6; i++) {
       const monthStart = new Date(sixMonthsAgo.getFullYear(), sixMonthsAgo.getMonth() + i, 1)
-      const monthEnd = new Date(sixMonthsAgo.getFullYear(), sixMonthsAgo.getMonth() + i + 1, 0)
+      const monthEnd = new Date(
+        sixMonthsAgo.getFullYear(),
+        sixMonthsAgo.getMonth() + i + 1,
+        0,
+        23,
+        59,
+        59,
+        999,
+      )
 
       const month = monthStart.toLocaleDateString("en", { month: "short" })
 

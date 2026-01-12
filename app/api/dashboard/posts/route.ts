@@ -24,8 +24,11 @@ export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl
     const page = Number.parseInt(searchParams.get("page") || "1")
     const pageSize = Number.parseInt(searchParams.get("pageSize") || "20")
-    const sortBy = searchParams.get("sortBy") || "createdAt"
-    const sortOrder = searchParams.get("sortOrder") || "desc"
+    const sortByParam = searchParams.get("sortBy") || "createdAt"
+    const sortOrderParam = searchParams.get("sortOrder")
+    const allowedSortBy = new Set(["createdAt", "updatedAt", "title", "views", "status"])
+    const sortBy = allowedSortBy.has(sortByParam) ? sortByParam : "createdAt"
+    const sortOrder = sortOrderParam === "asc" ? "asc" : "desc"
     const search = searchParams.get("search") || ""
 
     const skip = (page - 1) * pageSize

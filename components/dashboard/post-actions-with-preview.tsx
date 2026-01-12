@@ -43,6 +43,13 @@ interface PostActionsWithPreviewProps {
     deleteConfirmDesc?: string
     cancel?: string
     confirm?: string
+    previewStatus?: string
+    previewViews?: string
+    previewCreated?: string
+    deleteFailed?: string
+    deleting?: string
+    published?: string
+    draft?: string
   }
   onDelete?: () => void
 }
@@ -71,7 +78,7 @@ export function PostActionsWithPreview({
       if (onDelete) onDelete()
     } catch (error) {
       console.error("Delete error:", error)
-      alert("删除失败，请重试")
+      alert(dict.deleteFailed || "删除失败，请重试")
     } finally {
       setDeleting(false)
     }
@@ -108,9 +115,19 @@ export function PostActionsWithPreview({
           </DialogHeader>
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>状态: {post.status === "PUBLISHED" ? "已发布" : "草稿"}</span>
-              <span>浏览: {post.views}</span>
-              <span>创建: {new Date(post.createdAt).toLocaleDateString(locale)}</span>
+              <span>
+                {dict.previewStatus || "状态"}:{" "}
+                {post.status === "PUBLISHED"
+                  ? dict.published || "已发布"
+                  : dict.draft || "草稿"}
+              </span>
+              <span>
+                {dict.previewViews || "浏览"}: {post.views}
+              </span>
+              <span>
+                {dict.previewCreated || "创建"}:{" "}
+                {new Date(post.createdAt).toLocaleDateString(locale)}
+              </span>
             </div>
             <div className="prose prose-sm max-w-none dark:prose-invert">
               <div className="whitespace-pre-wrap">{post.content}</div>
@@ -130,7 +147,7 @@ export function PostActionsWithPreview({
           <AlertDialogFooter>
             <AlertDialogCancel>{dict.cancel || "取消"}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} disabled={deleting}>
-              {deleting ? "删除中..." : dict.confirm || "确认"}
+              {deleting ? dict.deleting || "删除中..." : dict.confirm || "确认"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

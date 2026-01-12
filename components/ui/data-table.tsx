@@ -35,6 +35,7 @@ export interface DataTableProps<T> {
   mobileCardRender?: (item: T) => React.ReactNode
   loadingText?: string
   perPageText?: string
+  summaryFormatter?: (summary: { total: number; page: number; totalPages: number }) => string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,12 +49,13 @@ export function DataTable<T extends Record<string, any>>({
   onPageSizeChange,
   onSort,
   loading = false,
-  emptyMessage = "暂无数据",
+  emptyMessage = "No data",
   rowHeight = 60,
   enableVirtualScroll = false,
   mobileCardRender,
-  loadingText = "加载中...",
-  perPageText = "每页显示",
+  loadingText = "Loading...",
+  perPageText = "Per page",
+  summaryFormatter,
 }: DataTableProps<T>) {
   const [sortKey, setSortKey] = useState<string>("")
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
@@ -61,6 +63,9 @@ export function DataTable<T extends Record<string, any>>({
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const totalPages = Math.ceil(total / pageSize)
+  const summaryText = summaryFormatter
+    ? summaryFormatter({ total, page, totalPages })
+    : `Total ${total}, page ${page} / ${totalPages}`
 
   const handleSort = (key: string) => {
     if (!onSort) return
@@ -220,9 +225,7 @@ export function DataTable<T extends Record<string, any>>({
                 <SelectItem value="100">100</SelectItem>
               </SelectContent>
             </Select>
-            <span className="text-sm text-muted-foreground">
-              共 {total} 条，第 {page} / {totalPages} 页
-            </span>
+            <span className="text-sm text-muted-foreground">{summaryText}</span>
           </div>
 
           <div className="flex items-center gap-1">

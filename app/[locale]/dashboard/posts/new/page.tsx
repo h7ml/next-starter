@@ -19,9 +19,8 @@ import Link from "next/link"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 
-export default function NewPostPage({ params }: { params: Promise<{ locale: string }> }) {
+export default function NewPostPage({ params }: { params: { locale: Locale } }) {
   const router = useRouter()
-  const [locale, setLocale] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,12 +31,11 @@ export default function NewPostPage({ params }: { params: Promise<{ locale: stri
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
   })
 
+  const locale = params.locale
+
   useEffect(() => {
-    params.then((p) => {
-      setLocale(p.locale)
-      getDictionary(p.locale as Locale).then(setDict)
-    })
-  }, [params])
+    getDictionary(locale).then(setDict)
+  }, [locale])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,7 +63,7 @@ export default function NewPostPage({ params }: { params: Promise<{ locale: stri
     }
   }
 
-  if (!locale || !dict) return null
+  if (!dict) return null
 
   return (
     <div className="space-y-6">

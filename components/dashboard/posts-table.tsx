@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Plus, Search, X } from "lucide-react"
@@ -32,6 +31,7 @@ interface PostsTableProps {
       newPost: string
       searchPosts: string
       search: string
+      author: string
       postTitle: string
       status: string
       views: string
@@ -48,13 +48,19 @@ interface PostsTableProps {
       cancel: string
       confirm: string
       noData: string
+      previewStatus: string
+      previewViews: string
+      previewCreated: string
+      deleteFailed: string
+      deleting: string
+      loading: string
+      perPage: string
+      pageSummary: string
     }
   }
 }
 
 export function PostsTable({ locale, dict }: PostsTableProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
   const [posts, setPosts] = useState<Post[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -116,7 +122,7 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
       ? [
           {
             key: "author",
-            label: "作者",
+            label: dict.dashboard.author,
             width: "15%",
             render: (post: Post) => (
               <span className="text-muted-foreground">
@@ -180,6 +186,13 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
             deleteConfirmDesc: dict.dashboard.deleteConfirmDesc,
             cancel: dict.dashboard.cancel,
             confirm: dict.dashboard.confirm,
+            previewStatus: dict.dashboard.previewStatus,
+            previewViews: dict.dashboard.previewViews,
+            previewCreated: dict.dashboard.previewCreated,
+            deleteFailed: dict.dashboard.deleteFailed,
+            deleting: dict.dashboard.deleting,
+            published: dict.dashboard.published,
+            draft: dict.dashboard.draft,
           }}
           onDelete={fetchPosts}
         />
@@ -191,6 +204,12 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
     setSortBy(key)
     setSortOrder(direction)
   }
+
+  const formatPageSummary = (summary: { total: number; page: number; totalPages: number }) =>
+    dict.dashboard.pageSummary
+      .replace("{total}", summary.total.toString())
+      .replace("{page}", summary.page.toString())
+      .replace("{totalPages}", summary.totalPages.toString())
 
   return (
     <div className="space-y-6">
@@ -251,6 +270,9 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
             onSort={handleSort}
             loading={loading}
             emptyMessage={dict.dashboard.noData}
+            loadingText={dict.dashboard.loading}
+            perPageText={dict.dashboard.perPage}
+            summaryFormatter={formatPageSummary}
             enableVirtualScroll={false}
             rowHeight={60}
             mobileCardRender={(post) => (
@@ -270,6 +292,13 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
                         deleteConfirmDesc: dict.dashboard.deleteConfirmDesc,
                         cancel: dict.dashboard.cancel,
                         confirm: dict.dashboard.confirm,
+                        previewStatus: dict.dashboard.previewStatus,
+                        previewViews: dict.dashboard.previewViews,
+                        previewCreated: dict.dashboard.previewCreated,
+                        deleteFailed: dict.dashboard.deleteFailed,
+                        deleting: dict.dashboard.deleting,
+                        published: dict.dashboard.published,
+                        draft: dict.dashboard.draft,
                       }}
                       onDelete={fetchPosts}
                     />
