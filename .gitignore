@@ -22,6 +22,9 @@ yarn-error.log*
 .env.*.local
 !.env.example
 
+# build info (generated at build time)
+lib/build-info.json
+
 # vercel
 .vercel
 

@@ -41,6 +41,7 @@
     ]
   },
   "scripts": {
+    "prebuild": "bash scripts/generate-build-info.sh",
     "build": "next build",
     "dev": "next dev",
     "lint": "pnpm lint:eslint && pnpm lint:tslint",
