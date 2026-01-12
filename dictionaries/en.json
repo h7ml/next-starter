@@ -70,7 +70,9 @@
     "title": "Modern Tech Stack",
     "description": "Built with the latest and most reliable technologies in the ecosystem.",
     "codeComment": "// Example: Type-safe database query with Prisma",
-    "visitWebsite": "Visit"
+    "visitWebsite": "Visit",
+    "liveDemos": "Live Demos",
+    "liveDemosDescription": "See this template in action on different platforms"
   },
   "deploy": {
     "title": "Deploy Anywhere",

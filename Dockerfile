@@ -12,7 +12,7 @@ COPY prisma ./prisma
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile --prod=false; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -22,6 +22,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Generate Prisma client
+ARG DATABASE_URL="postgresql://user:password@localhost:5432/db"
+ENV DATABASE_URL=$DATABASE_URL
 RUN npx prisma generate
 
 # Build the application

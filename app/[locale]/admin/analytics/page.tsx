@@ -107,7 +107,7 @@ export default async function AdminAnalyticsPage({ params }: AdminAnalyticsPageP
       })
 
       const totalUsers = await prisma.user.count()
-      topCountries = countryData.map((item) => ({
+      topCountries = countryData.map((item: { country: string | null; _count: number }) => ({
         country: item.country || "Unknown",
         users: item._count,
         percentage: totalUsers > 0 ? Math.round((item._count / totalUsers) * 100) : 0,

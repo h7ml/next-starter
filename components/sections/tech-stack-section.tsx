@@ -201,6 +201,13 @@ const stack = [
   },
 ]
 
+const demos = [
+  { name: "Vercel", url: "https://next-starter-pro.vercel.app/" },
+  { name: "Netlify", url: "https://next-starter-pro.netlify.app/" },
+  { name: "Zeabur", url: "https://next-starter.zeabur.app/" },
+  { name: "Fly.dev", url: "https://next-starter.fly.dev/" },
+]
+
 const TechStackSection = ({ dict }: TechStackSectionProps) => {
   return (
     <section id="tech-stack" className="py-24 sm:py-32">
@@ -232,6 +239,27 @@ const TechStackSection = ({ dict }: TechStackSectionProps) => {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <h3 className="text-2xl font-bold mb-4">{dict.techStack.liveDemos}</h3>
+          <p className="text-gray-600 mb-8">{dict.techStack.liveDemosDescription}</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {demos.map((demo) => (
+              <motion.a
+                key={demo.name}
+                href={demo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span className="font-medium">{demo.name}</span>
+                <ExternalLink className="h-4 w-4" />
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
     </section>

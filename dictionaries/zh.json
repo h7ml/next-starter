@@ -70,7 +70,9 @@
     "title": "现代技术栈",
     "description": "使用生态系统中最新、最可靠的技术构建。",
     "codeComment": "// 示例：使用 Prisma 进行类型安全的数据库查询",
-    "visitWebsite": "访问"
+    "visitWebsite": "访问",
+    "liveDemos": "在线演示",
+    "liveDemosDescription": "在不同平台上查看此模板的实际效果"
   },
   "deploy": {
     "title": "随处部署",
