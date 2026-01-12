@@ -41,7 +41,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="mb-8">
             <Button variant="ghost" size="sm" asChild>

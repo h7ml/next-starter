@@ -1,17 +1,62 @@
 {
-  "name": "my-v0-project",
+  "name": "next-starter",
   "version": "0.1.0",
   "private": true,
+  "description": "A production-ready Next.js starter template with React, TypeScript, Tailwind CSS, shadcn/ui, Prisma, and Docker support.",
+  "author": "h7ml <h7ml@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/h7ml/next-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/h7ml/next-starter/issues"
+  },
+  "homepage": "https://github.com/h7ml/next-starter#readme",
+  "keywords": [
+    "nextjs",
+    "starter",
+    "typescript",
+    "tailwindcss",
+    "shadcn-ui",
+    "prisma",
+    "docker",
+    "postgresql"
+  ],
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev -p",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "postinstall": "node -e \"if (process.env.DATABASE_URL) { require('child_process').execSync('prisma generate', { stdio: 'inherit' }) }\"",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.10.0",
-    "@prisma/client": "7.2.0",
+    "@prisma/client": "^6.0.0",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
     "@radix-ui/react-aspect-ratio": "1.1.1",
@@ -51,7 +96,7 @@
     "lucide-react": "^0.454.0",
     "next": "16.0.10",
     "next-themes": "^0.4.6",
-    "prisma": "latest",
+    "prisma": "^6.0.0",
     "react": "19.2.0",
     "react-day-picker": "9.8.0",
     "react-dom": "19.2.0",
@@ -63,6 +108,10 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
     "zod": "3.25.76"
+  },
+  "overrides": {
+    "prisma": "^6.0.0",
+    "@prisma/client": "^6.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.9",

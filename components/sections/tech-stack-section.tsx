@@ -181,27 +181,29 @@ const stack = [
 
 const TechStackSection = ({ dict }: TechStackSectionProps) => {
   return (
-    <section className="space-y-6">
-      <h2 className="text-3xl font-bold text-center">{dict.sections.techStack.title}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {stack.map((item) => (
-          <motion.div
-            key={item.name}
-            className="p-4 bg-white rounded-lg shadow-md flex items-center space-x-4"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            {item.icon}
-            <div>
-              <h3 className="text-xl font-semibold">{item.name}</h3>
-              <p className="text-sm text-gray-500">{item.category}</p>
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
-                <span>{dict.sections.techStack.visitWebsite}</span>
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </div>
-          </motion.div>
-        ))}
+    <section id="tech-stack" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold text-center tracking-tight sm:text-4xl mb-16">{dict.techStack.title}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stack.map((item) => (
+            <motion.div
+              key={item.name}
+              className="p-4 bg-white rounded-lg shadow-md flex items-center space-x-4"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              {item.icon}
+              <div>
+                <h3 className="text-xl font-semibold">{item.name}</h3>
+                <p className="text-sm text-gray-500">{item.category}</p>
+                <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
+                  <span>{dict.techStack.visitWebsite}</span>
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )

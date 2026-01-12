@@ -1,14 +1,24 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { BookOpen, Eye, FileText, PenLine } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+
+type StatsIconName = "fileText" | "bookOpen" | "penLine" | "eye"
+
+const iconMap: Record<StatsIconName, LucideIcon> = {
+  fileText: FileText,
+  bookOpen: BookOpen,
+  penLine: PenLine,
+  eye: Eye,
+}
 
 interface StatsCardProps {
   title: string
   value: string | number
   description?: string
-  icon: LucideIcon
+  icon: StatsIconName
   trend?: {
     value: number
     isPositive: boolean
@@ -16,7 +26,9 @@ interface StatsCardProps {
   index?: number
 }
 
-export function StatsCard({ title, value, description, icon: Icon, trend, index = 0 }: StatsCardProps) {
+export function StatsCard({ title, value, description, icon, trend, index = 0 }: StatsCardProps) {
+  const Icon = iconMap[icon]
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

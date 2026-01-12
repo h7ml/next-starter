@@ -51,9 +51,9 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
 
         <div className="flex items-center gap-2">
           <LocaleSwitcher currentLocale={locale} />
-          <ThemeToggle />
+          <ThemeToggle dict={dict} />
           <Button variant="ghost" size="icon" asChild className="hidden sm:flex">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/h7ml/next-starter" target="_blank" rel="noopener noreferrer">
               <Github className="h-5 w-5" />
               <span className="sr-only">GitHub</span>
             </a>

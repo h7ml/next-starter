@@ -5,8 +5,8 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://next-starter.vercel.app",
   ogImage: "/og-image.png",
   links: {
-    github: "https://github.com/yourusername/next-starter",
-    twitter: "https://twitter.com/yourusername",
+    github: "https://github.com/h7ml/next-starter",
+    twitter: "",
   },
 }
 

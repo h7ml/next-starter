@@ -35,7 +35,7 @@ export function DashboardHeader({ locale, dict, user }: DashboardHeaderProps) {
 
       <div className="flex items-center gap-3">
         <LocaleSwitcher currentLocale={locale} />
-        <ThemeToggle />
+        <ThemeToggle dict={dict} />
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-primary" />

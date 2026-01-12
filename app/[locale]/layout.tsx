@@ -68,7 +68,7 @@ export async function generateMetadata({
       title: dict.metadata.title,
       description: dict.metadata.description,
       images: [`${baseUrl}/og-image.png`],
-      creator: "@yourusername",
+      creator: "",
     },
     robots: {
       index: true,

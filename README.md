@@ -1,5 +1,7 @@
 # Next Starter Template
 
+English | [简体中文](README.zh-CN.md)
+
 A production-ready Next.js starter template with React, TypeScript, Tailwind CSS, shadcn/ui, Prisma, and Docker support.
 
 ## Features
@@ -18,10 +20,10 @@ A production-ready Next.js starter template with React, TypeScript, Tailwind CSS
 
 ```bash
 # Clone the repository
-npx create-next-app -e https://github.com/your/next-starter my-app
+npx create-next-app -e https://github.com/h7ml/next-starter next-starter
 
 # Navigate to project
-cd my-app
+cd next-starter
 
 # Install dependencies
 npm install

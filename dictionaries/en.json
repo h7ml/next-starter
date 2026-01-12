@@ -278,5 +278,152 @@
     "role": "Role",
     "status": "Status",
     "createdAt": "Created At"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "mode": "Mode",
+    "color": "Color",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "How we collect, use, and protect your data",
+      "lastUpdated": "Last updated",
+      "sections": {
+        "intro": "We respect your privacy and are committed to protecting your personal data.",
+        "dataCollection": {
+          "title": "Data Collection",
+          "content": "We collect information you provide directly to us, such as when you create an account, use our services, or communicate with us."
+        },
+        "dataUse": {
+          "title": "How We Use Your Data",
+          "content": "We use the information we collect to provide, maintain, and improve our services, to develop new services, and to protect our company and our users."
+        },
+        "dataSecurity": {
+          "title": "Data Security",
+          "content": "We implement appropriate technical and organizational measures to protect your personal data against unauthorized or unlawful processing and against accidental loss, destruction, or damage."
+        },
+        "yourRights": {
+          "title": "Your Rights",
+          "content": "You have the right to access, update, or delete your personal information at any time. You can do this through your account settings or by contacting us."
+        }
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "description": "Terms and conditions for using our services",
+      "lastUpdated": "Last updated",
+      "sections": {
+        "intro": "By accessing and using this service, you accept and agree to be bound by the terms and provision of this agreement.",
+        "useOfService": {
+          "title": "Use of Service",
+          "content": "You must follow any policies made available to you within the service. Don't misuse our services. You may use our services only as permitted by law."
+        },
+        "accounts": {
+          "title": "User Accounts",
+          "content": "When you create an account with us, you must provide accurate and complete information. You are responsible for safeguarding the password and for all activities that occur under your account."
+        },
+        "termination": {
+          "title": "Termination",
+          "content": "We may terminate or suspend your account and access to the service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms."
+        },
+        "limitation": {
+          "title": "Limitation of Liability",
+          "content": "In no event shall the company be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses."
+        }
+      }
+    },
+    "license": {
+      "title": "License",
+      "description": "MIT License - Open source and free to use",
+      "lastUpdated": "Last updated",
+      "mitLicense": "MIT License",
+      "sections": {
+        "intro": "This project is licensed under the MIT License. This means you are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.",
+        "permissions": {
+          "title": "Permissions",
+          "items": [
+            "Commercial use",
+            "Modification",
+            "Distribution",
+            "Private use"
+          ]
+        },
+        "conditions": {
+          "title": "Conditions",
+          "items": [
+            "License and copyright notice must be included"
+          ]
+        },
+        "limitations": {
+          "title": "Limitations",
+          "items": [
+            "No liability",
+            "No warranty"
+          ]
+        },
+        "fullText": {
+          "title": "Full License Text",
+          "content": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+        }
+      }
+    }
+  },
+  "docsPages": {
+    "api": {
+      "title": "API Reference",
+      "description": "Complete API documentation and endpoints",
+      "sections": {
+        "intro": "This section provides comprehensive API documentation for integrating with our services.",
+        "authentication": {
+          "title": "Authentication",
+          "content": "All API requests require authentication using Bearer tokens. Include your API key in the Authorization header."
+        },
+        "endpoints": {
+          "title": "Available Endpoints",
+          "items": [
+            "GET /api/users - Retrieve user list",
+            "POST /api/users - Create new user",
+            "GET /api/users/:id - Get user details",
+            "PUT /api/users/:id - Update user",
+            "DELETE /api/users/:id - Delete user"
+          ]
+        },
+        "rateLimit": {
+          "title": "Rate Limiting",
+          "content": "API requests are limited to 100 requests per minute per API key. Rate limit information is included in response headers."
+        },
+        "errors": {
+          "title": "Error Handling",
+          "content": "The API uses conventional HTTP response codes to indicate success or failure. Codes in the 2xx range indicate success, 4xx indicate client errors, and 5xx indicate server errors."
+        }
+      }
+    },
+    "examples": {
+      "title": "Examples",
+      "description": "Practical examples and code snippets",
+      "sections": {
+        "intro": "Learn by example with these practical code snippets and use cases.",
+        "basicSetup": {
+          "title": "Basic Setup",
+          "content": "Get started quickly with this basic configuration example."
+        },
+        "authentication": {
+          "title": "Authentication Example",
+          "content": "Example of implementing user authentication with our services."
+        },
+        "database": {
+          "title": "Database Operations",
+          "content": "Common database operations using Prisma ORM."
+        },
+        "deployment": {
+          "title": "Deployment Example",
+          "content": "Step-by-step guide to deploying your application."
+        }
+      }
+    }
   }
 }

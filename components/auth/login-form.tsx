@@ -74,7 +74,7 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-md space-y-8"
+      className="w-full max-w-md space-y-8 rounded-2xl border border-border/40 bg-card/50 p-8 shadow-2xl backdrop-blur-xl"
     >
       <div className="text-center">
         <Link href={`/${locale}`} className="inline-flex items-center gap-2 mb-8">

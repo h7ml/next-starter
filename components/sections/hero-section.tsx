@@ -50,7 +50,7 @@ export function HeroSection({ dict }: HeroSectionProps) {
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/h7ml/next-starter" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-4 w-4" />
                 {dict.hero.viewGithub}
               </a>
@@ -75,10 +75,10 @@ export function HeroSection({ dict }: HeroSectionProps) {
             </div>
             <div className="p-4 font-mono text-sm">
               <p className="text-muted-foreground">
-                <span className="text-primary">$</span> npx create-next-app -e https://github.com/your/next-starter
+                <span className="text-primary">$</span> npx create-next-app -e https://github.com/h7ml/next-starter
               </p>
               <p className="mt-2 text-muted-foreground">
-                <span className="text-primary">$</span> cd my-app && npm run dev
+                <span className="text-primary">$</span> cd next-starter && npm run dev
               </p>
               <p className="mt-2 text-primary">{dict.hero.readyOn}</p>
             </div>

@@ -16,14 +16,14 @@ export function Footer({ dict, locale }: FooterProps) {
       { name: dict.nav.deploy, href: "#deploy" },
     ],
     resources: [
-      { name: dict.footer.documentation, href: "/docs" },
-      { name: dict.footer.apiReference, href: "/docs/api" },
-      { name: dict.footer.examples, href: "/docs/examples" },
+      { name: dict.footer.documentation, href: `/${locale}/docs` },
+      { name: dict.footer.apiReference, href: `/${locale}/docs/api` },
+      { name: dict.footer.examples, href: `/${locale}/docs/examples` },
     ],
     legal: [
-      { name: dict.footer.privacy, href: "/privacy" },
-      { name: dict.footer.terms, href: "/terms" },
-      { name: dict.footer.license, href: "/license" },
+      { name: dict.footer.privacy, href: `/${locale}/privacy` },
+      { name: dict.footer.terms, href: `/${locale}/terms` },
+      { name: dict.footer.license, href: `/${locale}/license` },
     ],
   }
 
@@ -41,7 +41,7 @@ export function Footer({ dict, locale }: FooterProps) {
             <p className="mt-4 text-sm text-muted-foreground">{dict.footer.description}</p>
             <div className="mt-4 flex gap-3">
               <a
-                href="https://github.com"
+                href="https://github.com/h7ml/next-starter"
                 className="text-muted-foreground transition-colors hover:text-primary"
                 target="_blank"
                 rel="noopener noreferrer"

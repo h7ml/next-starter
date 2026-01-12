@@ -78,12 +78,16 @@ CREATE INDEX IF NOT EXISTS "Post_authorId_idx" ON "Post"("authorId");
 -- 创建管理员用户（密码: Admin123!）
 INSERT INTO "User" ("id", "email", "password", "name", "role", "emailVerified", "createdAt", "updatedAt")
 VALUES (
-  'admin-001',
+  'admin',
   'admin@example.com',
-  '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+  '467344d3212ce1f64f743b681e48ddf991dbbbf0976ceb5c24293cc104f547f9',
   'Administrator',
   'ADMIN',
   CURRENT_TIMESTAMP,
   CURRENT_TIMESTAMP,
   CURRENT_TIMESTAMP
-) ON CONFLICT ("email") DO NOTHING;
+) ON CONFLICT ("email") DO UPDATE
+  SET "password" = EXCLUDED."password",
+      "updatedAt" = CURRENT_TIMESTAMP
+  WHERE "User"."password" IS NULL
+     OR "User"."password" = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';

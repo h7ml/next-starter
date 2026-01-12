@@ -31,7 +31,7 @@ export function AdminHeader({ locale, dict, user }: AdminHeaderProps) {
         </Button>
 
         <LocaleSwitcher locale={locale} />
-        <ThemeToggle />
+        <ThemeToggle dict={dict} />
 
         <div className="ml-2 flex items-center gap-3 rounded-lg border border-border px-3 py-1.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive text-sm font-medium text-destructive-foreground">

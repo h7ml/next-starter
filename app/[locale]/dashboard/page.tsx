@@ -1,4 +1,4 @@
-import { FileText, Eye, BookOpen, PenLine } from "lucide-react"
+import { PenLine } from "lucide-react"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { getCurrentUser } from "@/lib/auth/session"
 import { StatsCard } from "@/components/dashboard/stats-card"
@@ -16,10 +16,10 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
   const user = await getCurrentUser()
 
   const stats = [
-    { title: dict.dashboard.stats.totalPosts, value: 12, icon: FileText, trend: { value: 12, isPositive: true } },
-    { title: dict.dashboard.stats.published, value: 8, icon: BookOpen, trend: { value: 5, isPositive: true } },
-    { title: dict.dashboard.stats.drafts, value: 4, icon: PenLine },
-    { title: dict.dashboard.stats.views, value: "2.4K", icon: Eye, trend: { value: 18, isPositive: true } },
+    { title: dict.dashboard.stats.totalPosts, value: 12, icon: "fileText", trend: { value: 12, isPositive: true } },
+    { title: dict.dashboard.stats.published, value: 8, icon: "bookOpen", trend: { value: 5, isPositive: true } },
+    { title: dict.dashboard.stats.drafts, value: 4, icon: "penLine" },
+    { title: dict.dashboard.stats.views, value: "2.4K", icon: "eye", trend: { value: 18, isPositive: true } },
   ]
 
   const recentPosts = [
