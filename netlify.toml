@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--include=dev"
+  PNPM_FLAGS = "--prod=false"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
