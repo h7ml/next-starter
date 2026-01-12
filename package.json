@@ -127,7 +127,8 @@
     "@prisma/generator-helper": "^6.0.0",
     "@tailwindcss/postcss": "^4.1.9",
     "postcss": "^8.5",
-    "tailwindcss": "^4.1.9"
+    "tailwindcss": "^4.1.9",
+    "tw-animate-css": "1.3.3"
   },
   "overrides": {
     "prisma": "^6.0.0",
@@ -142,7 +143,6 @@
     "prettier": "^3.3.3",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "tw-animate-css": "1.3.3",
     "typescript": "^5"
   }
 }
