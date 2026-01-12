@@ -124,7 +124,7 @@ export default async function LocaleLayout({
       <WebsiteJsonLd locale={currentLocale} />
       <OrganizationJsonLd />
       <SoftwareApplicationJsonLd locale={currentLocale} />
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme">
         {children}
         <Toaster />
       </ThemeProvider>

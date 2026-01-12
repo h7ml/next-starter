@@ -70,9 +70,10 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
         return
       }
 
-      router.push(`/${locale}/dashboard`)
-      router.refresh()
-    } catch {
+      // 登录成功，跳转到 dashboard
+      window.location.href = `/${locale}/dashboard`
+    } catch (err) {
+      console.error("Login error:", err)
       setError(t.errors.failed)
     } finally {
       setIsLoading(false)
