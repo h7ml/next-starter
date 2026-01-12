@@ -9,8 +9,8 @@ const nextConfig = {
   output: "standalone",
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
+    serverComponentsExternalPackages: ["@prisma/client", "prisma"],
   },
-  serverComponentsExternalPackages: ["@prisma/client", "prisma"],
 }
 
 export default nextConfig
