@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ConfirmDialog } from "@/components/admin/confirm-dialog"
+import { PostContent } from "@/components/posts/post-content"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 
@@ -31,7 +32,7 @@ interface AdminPost {
 }
 
 interface AdminPostDetail extends AdminPost {
-  content: string
+  content: string | null
   updatedAt: string
 }
 
@@ -455,9 +456,7 @@ export function AdminPostsTable({ locale, dict }: AdminPostsTableProps) {
                   </span>
                 </div>
               </div>
-              <div className="prose prose-sm max-w-none dark:prose-invert">
-                <div className="whitespace-pre-wrap">{previewPost.content}</div>
-              </div>
+              <PostContent content={previewPost.content} emptyMessage={t.previewTitle} />
             </div>
           )}
         </DialogContent>

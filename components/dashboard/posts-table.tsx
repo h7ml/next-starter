@@ -12,7 +12,7 @@ import { PostActionsWithPreview } from "@/components/dashboard/post-actions-with
 interface Post {
   id: string
   title: string
-  content: string
+  content: string | null
   status: string
   views: number
   createdAt: Date
@@ -45,6 +45,7 @@ interface PostsTableProps {
       edit: string
       delete: string
       preview: string
+      openPost: string
       deleteConfirmTitle: string
       deleteConfirmDesc: string
       cancel: string
@@ -53,6 +54,7 @@ interface PostsTableProps {
       previewStatus: string
       previewViews: string
       previewCreated: string
+      previewEmpty: string
       deleteFailed: string
       deleting: string
       loading: string
@@ -204,6 +206,7 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
             edit: dict.dashboard.edit,
             delete: dict.dashboard.delete,
             preview: dict.dashboard.preview || dict.dashboard.view,
+            openPost: dict.dashboard.openPost,
             deleteConfirmTitle: dict.dashboard.deleteConfirmTitle,
             deleteConfirmDesc: dict.dashboard.deleteConfirmDesc,
             cancel: dict.dashboard.cancel,
@@ -211,6 +214,7 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
             previewStatus: dict.dashboard.previewStatus,
             previewViews: dict.dashboard.previewViews,
             previewCreated: dict.dashboard.previewCreated,
+            previewEmpty: dict.dashboard.previewEmpty,
             deleteFailed: dict.dashboard.deleteFailed,
             deleting: dict.dashboard.deleting,
             published: dict.dashboard.published,
@@ -312,6 +316,7 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
                         edit: dict.dashboard.edit,
                         delete: dict.dashboard.delete,
                         preview: dict.dashboard.preview || dict.dashboard.view,
+                        openPost: dict.dashboard.openPost,
                         deleteConfirmTitle: dict.dashboard.deleteConfirmTitle,
                         deleteConfirmDesc: dict.dashboard.deleteConfirmDesc,
                         cancel: dict.dashboard.cancel,
@@ -319,10 +324,13 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
                         previewStatus: dict.dashboard.previewStatus,
                         previewViews: dict.dashboard.previewViews,
                         previewCreated: dict.dashboard.previewCreated,
+                        previewEmpty: dict.dashboard.previewEmpty,
                         deleteFailed: dict.dashboard.deleteFailed,
                         deleting: dict.dashboard.deleting,
                         published: dict.dashboard.published,
                         draft: dict.dashboard.draft,
+                        pending: dict.dashboard.pending,
+                        rejected: dict.dashboard.rejected,
                       }}
                       onDelete={fetchPosts}
                     />

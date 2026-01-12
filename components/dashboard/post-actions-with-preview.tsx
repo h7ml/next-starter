@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react"
+import { MoreHorizontal, Eye, Edit, Trash2, ArrowUpRight } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,11 +22,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { PostContent } from "@/components/posts/post-content"
 
 interface Post {
   id: string
   title: string
-  content: string
+  content: string | null
   status: string
   views: number
   createdAt: Date
@@ -40,6 +41,7 @@ interface PostActionsWithPreviewProps {
     edit: string
     delete: string
     preview: string
+    openPost: string
     deleteConfirmTitle?: string
     deleteConfirmDesc?: string
     cancel?: string
@@ -47,6 +49,7 @@ interface PostActionsWithPreviewProps {
     previewStatus?: string
     previewViews?: string
     previewCreated?: string
+    previewEmpty?: string
     deleteFailed?: string
     deleting?: string
     published?: string
@@ -100,6 +103,10 @@ export function PostActionsWithPreview({
             <Eye className="mr-2 h-4 w-4" />
             {dict.preview || dict.view}
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push(`/${locale}/posts/${post.id}`)}>
+            <ArrowUpRight className="mr-2 h-4 w-4" />
+            {dict.openPost}
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/posts/${post.id}`)}>
             <Edit className="mr-2 h-4 w-4" />
             {dict.edit}
@@ -136,9 +143,7 @@ export function PostActionsWithPreview({
                 {new Date(post.createdAt).toLocaleDateString(locale)}
               </span>
             </div>
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <div className="whitespace-pre-wrap">{post.content}</div>
-            </div>
+            <PostContent content={post.content} emptyMessage={dict.previewEmpty} />
           </div>
         </DialogContent>
       </Dialog>

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import {
   Select,
   SelectContent,
@@ -18,6 +17,8 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
+import { RichTextEditor } from "@/components/posts/rich-text-editor"
+import { PostContent } from "@/components/posts/post-content"
 
 export default function NewPostPage() {
   const router = useRouter()
@@ -57,12 +58,20 @@ export default function NewPostPage() {
     return dict.dashboard.createFailed
   }
 
+  const isContentEmpty = (content: string) =>
+    content.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length === 0
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError("")
 
     try {
+      if (isContentEmpty(formData.content)) {
+        setError(dict.dashboard.contentRequired)
+        return
+      }
+
       const res = await fetch("/api/dashboard/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -123,16 +132,25 @@ export default function NewPostPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="content">{dict.dashboard.contentLabel}</Label>
-              <Textarea
-                id="content"
-                value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                placeholder={dict.dashboard.contentPlaceholder}
-                rows={15}
-                required
-              />
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="space-y-2">
+                <Label>{dict.dashboard.contentLabel}</Label>
+                <RichTextEditor
+                  value={formData.content}
+                  onChange={(content) => setFormData({ ...formData, content })}
+                  placeholder={dict.dashboard.contentPlaceholder}
+                  className="min-h-[320px]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{dict.dashboard.previewTitle}</Label>
+                <div className="min-h-[320px] rounded-md border border-border bg-muted/20 p-4">
+                  <PostContent
+                    content={formData.content}
+                    emptyMessage={dict.dashboard.previewEmpty}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="space-y-2">
