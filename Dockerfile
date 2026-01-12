@@ -18,6 +18,15 @@ RUN \
 
 # Builder stage
 FROM base AS builder
+
+# Git 信息构建参数
+ARG GIT_COMMIT_HASH=unknown
+ARG GIT_COMMIT_SHORT=unknown
+ARG GIT_COMMIT_MESSAGE=unknown
+ARG GIT_AUTHOR=unknown
+ARG GIT_REPO=unknown
+ARG GIT_BRANCH=unknown
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -28,6 +37,12 @@ RUN npx prisma generate
 
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV GIT_COMMIT_HASH=$GIT_COMMIT_HASH
+ENV GIT_COMMIT_SHORT=$GIT_COMMIT_SHORT
+ENV GIT_COMMIT_MESSAGE=$GIT_COMMIT_MESSAGE
+ENV GIT_AUTHOR=$GIT_AUTHOR
+ENV GIT_REPO=$GIT_REPO
+ENV GIT_BRANCH=$GIT_BRANCH
 RUN \
   if [ -f yarn.lock ]; then yarn build; \
   elif [ -f package-lock.json ]; then npm run build; \
