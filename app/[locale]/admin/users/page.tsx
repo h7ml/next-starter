@@ -3,40 +3,56 @@ import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal, Shield, Ban, Edit, Trash2 } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { SearchInput } from "@/components/admin/search-input"
-import type { Locale } from "@/lib/i18n/config"
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
+import { headers } from "next/headers"
 
 interface UsersPageProps {
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }
 
 export default async function UsersPage({ params }: UsersPageProps) {
   const { locale } = await params
-  const dict = await getDictionary(locale)
+  const currentLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale
+  const dict = await getDictionary(currentLocale)
 
-  const users = [
-    { id: 1, name: "John Doe", email: "john@example.com", role: "USER", status: "active", createdAt: "2024-01-10" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "ADMIN", status: "active", createdAt: "2024-01-08" },
-    { id: 3, name: "Bob Wilson", email: "bob@example.com", role: "USER", status: "active", createdAt: "2024-01-05" },
-    { id: 4, name: "Alice Brown", email: "alice@example.com", role: "USER", status: "banned", createdAt: "2024-01-03" },
-    {
-      id: 5,
-      name: "Charlie Davis",
-      email: "charlie@example.com",
-      role: "USER",
-      status: "active",
-      createdAt: "2024-01-01",
-    },
-  ]
+  const headersList = await headers()
+  const protocol = headersList.get("x-forwarded-proto") || "http"
+  const host = headersList.get("host") || "localhost:3000"
+  const baseUrl = `${protocol}://${host}`
+
+  let users: Array<{
+    id: string
+    name: string | null
+    email: string
+    role: string
+    status: string
+    createdAt: Date
+  }> = []
+
+  try {
+    const res = await fetch(`${baseUrl}/api/admin/users?limit=20`, {
+      cache: "no-store",
+    })
+    if (res.ok) {
+      const data = await res.json()
+      users = data.users || []
+    }
+  } catch (error) {
+    console.error("Failed to fetch users:", error)
+  }
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">{dict.admin.userManagement}</h1>
-        <p className="mt-1 text-muted-foreground">
-          {locale === "zh" ? "管理所有用户账号" : "Manage all user accounts"}
-        </p>
+        <p className="mt-1 text-muted-foreground">{dict.admin.userManagementDesc}</p>
       </div>
 
       <Card>
@@ -52,7 +68,7 @@ export default async function UsersPage({ params }: UsersPageProps) {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-3 font-medium">{locale === "zh" ? "用户" : "User"}</th>
+                  <th className="pb-3 font-medium">{dict.admin.user}</th>
                   <th className="pb-3 font-medium">{dict.admin.role}</th>
                   <th className="pb-3 font-medium">{dict.admin.status}</th>
                   <th className="pb-3 font-medium">{dict.admin.createdAt}</th>
@@ -65,10 +81,10 @@ export default async function UsersPage({ params }: UsersPageProps) {
                     <td className="py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-medium text-primary">
-                          {user.name[0]}
+                          {(user.name ?? user.email)[0]?.toUpperCase()}
                         </div>
                         <div>
-                          <p className="font-medium">{user.name}</p>
+                          <p className="font-medium">{user.name || user.email.split("@")[0]}</p>
                           <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
                       </div>
@@ -87,19 +103,17 @@ export default async function UsersPage({ params }: UsersPageProps) {
                     <td className="py-4">
                       <span
                         className={`rounded-full px-2 py-1 text-xs font-medium ${
-                          user.status === "active" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
+                          user.status === "ACTIVE"
+                            ? "bg-primary/10 text-primary"
+                            : "bg-destructive/10 text-destructive"
                         }`}
                       >
-                        {user.status === "active"
-                          ? locale === "zh"
-                            ? "正常"
-                            : "Active"
-                          : locale === "zh"
-                            ? "已禁用"
-                            : "Banned"}
+                        {user.status === "ACTIVE" ? dict.admin.active : dict.admin.banned}
                       </span>
                     </td>
-                    <td className="py-4 text-muted-foreground">{user.createdAt}</td>
+                    <td className="py-4 text-muted-foreground">
+                      {new Date(user.createdAt).toLocaleDateString(currentLocale)}
+                    </td>
                     <td className="py-4">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -114,7 +128,7 @@ export default async function UsersPage({ params }: UsersPageProps) {
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <Shield className="mr-2 h-4 w-4" />
-                            {locale === "zh" ? "设为管理员" : "Make Admin"}
+                            {dict.admin.makeAdmin}
                           </DropdownMenuItem>
                           <DropdownMenuItem>
                             <Ban className="mr-2 h-4 w-4" />

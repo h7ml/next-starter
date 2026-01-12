@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { hashPassword, validatePassword } from "@/lib/auth/password"
+import { features } from "@/lib/features"
 import { z } from "zod"
 
 const resetPasswordSchema = z.object({
@@ -9,7 +10,12 @@ const resetPasswordSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  if (!features.database || !db) {
+    return NextResponse.json({ error: "Authentication service not configured" }, { status: 503 })
+  }
+
   try {
+    const prisma = db
     const body = await request.json()
     const { token, password } = resetPasswordSchema.parse(body)
 
@@ -20,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 查找用户
-    const user = await db.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         resetToken: token,
         resetTokenExpiry: { gt: new Date() },
@@ -33,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     // 更新密码
     const hashedPassword = await hashPassword(password)
-    await db.user.update({
+    await prisma.user.update({
       where: { id: user.id },
       data: {
         password: hashedPassword,

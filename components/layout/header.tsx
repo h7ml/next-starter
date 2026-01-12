@@ -53,7 +53,11 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
           <LocaleSwitcher currentLocale={locale} />
           <ThemeToggle dict={dict} />
           <Button variant="ghost" size="icon" asChild className="hidden sm:flex">
-            <a href="https://github.com/h7ml/next-starter" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/h7ml/next-starter"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Github className="h-5 w-5" />
               <span className="sr-only">GitHub</span>
             </a>
@@ -62,12 +66,19 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
           {authEnabled && (
             <>
               {user ? (
-                <Button asChild variant="ghost" className="hidden sm:flex">
-                  <Link href={`/${locale}/dashboard`}>
-                    <User className="mr-2 h-4 w-4" />
-                    {user.name || dict.nav.dashboard}
-                  </Link>
-                </Button>
+                <>
+                  <Button asChild variant="ghost" className="hidden sm:flex">
+                    <Link href={`/${locale}/dashboard`}>
+                      <User className="mr-2 h-4 w-4" />
+                      {user.name || dict.nav.dashboard}
+                    </Link>
+                  </Button>
+                  <form action="/api/auth/logout" method="POST" className="hidden sm:flex">
+                    <Button type="submit" variant="ghost">
+                      {dict.nav.logout}
+                    </Button>
+                  </form>
+                </>
               ) : (
                 <>
                   <Button asChild variant="ghost" className="hidden sm:flex">
@@ -81,7 +92,12 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
             </>
           )}
 
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
@@ -109,9 +125,16 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
               {authEnabled && (
                 <div className="flex gap-2 pt-2">
                   {user ? (
-                    <Button asChild className="w-full">
-                      <Link href={`/${locale}/dashboard`}>{dict.nav.dashboard}</Link>
-                    </Button>
+                    <>
+                      <Button asChild className="flex-1">
+                        <Link href={`/${locale}/dashboard`}>{dict.nav.dashboard}</Link>
+                      </Button>
+                      <form action="/api/auth/logout" method="POST" className="flex-1">
+                        <Button type="submit" variant="outline" className="w-full">
+                          {dict.nav.logout}
+                        </Button>
+                      </form>
+                    </>
                   ) : (
                     <>
                       <Button asChild variant="outline" className="flex-1 bg-transparent">

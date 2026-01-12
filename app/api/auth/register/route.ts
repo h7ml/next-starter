@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import { hashPassword, validatePassword } from "@/lib/auth/password"
 import { createSession } from "@/lib/auth/session"
 import { features } from "@/lib/features"
+import { getCountryFromIP } from "@/lib/utils/geolocation"
 import { z } from "zod"
 
 const registerSchema = z.object({
@@ -37,11 +38,16 @@ export async function POST(request: NextRequest) {
 
     // 创建用户
     const hashedPassword = await hashPassword(password)
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0] || request.headers.get("x-real-ip")
+    const country = await getCountryFromIP(ip)
+
     const user = await db.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
+        country,
       },
     })
 

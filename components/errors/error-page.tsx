@@ -2,7 +2,16 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowLeft, RefreshCw, Home, AlertTriangle, Lock, Ban, FileQuestion, ServerCrash } from "lucide-react"
+import {
+  ArrowLeft,
+  RefreshCw,
+  Home,
+  AlertTriangle,
+  Lock,
+  Ban,
+  FileQuestion,
+  ServerCrash,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 
@@ -114,7 +123,10 @@ export function ErrorPage({ code, dictionary, locale }: ErrorPageProps) {
           <ArrowLeft className="h-4 w-4" />
           <span>
             {locale === "zh" ? "或者访问" : "Or visit"}{" "}
-            <Link href={`/${locale}/docs`} className="text-primary underline-offset-4 hover:underline">
+            <Link
+              href={`/${locale}/docs`}
+              className="text-primary underline-offset-4 hover:underline"
+            >
               {dictionary.nav.docs}
             </Link>{" "}
             {locale === "zh" ? "获取帮助" : "for help"}

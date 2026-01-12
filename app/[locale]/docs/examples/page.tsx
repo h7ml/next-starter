@@ -90,19 +90,22 @@ export default async function ExamplesPage({ params }: ExamplesPageProps) {
                     <div className="rounded-lg bg-muted p-4">
                       <pre className="overflow-x-auto">
                         <code className="font-mono text-sm">
-{section.key === "basicSetup" && `// Install dependencies
+                          {section.key === "basicSetup" &&
+                            `// Install dependencies
 npm install
 
 // Run development server
 npm run dev`}
-{section.key === "authentication" && `import { signIn, signOut } from "@/lib/auth"
+                          {section.key === "authentication" &&
+                            `import { signIn, signOut } from "@/lib/auth"
 
 // Sign in
 await signIn({ email, password })
 
 // Sign out
 await signOut()`}
-{section.key === "database" && `import { prisma } from "@/lib/db"
+                          {section.key === "database" &&
+                            `import { prisma } from "@/lib/db"
 
 // Query data
 const users = await prisma.user.findMany()
@@ -111,7 +114,8 @@ const users = await prisma.user.findMany()
 const user = await prisma.user.create({
   data: { email, name }
 })`}
-{section.key === "deployment" && `# Deploy to Vercel
+                          {section.key === "deployment" &&
+                            `# Deploy to Vercel
 vercel deploy
 
 # Or use Docker

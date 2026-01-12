@@ -3,7 +3,16 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { LayoutDashboard, FileText, Settings, User, LogOut, ChevronLeft, ChevronRight, BarChart3 } from "lucide-react"
+import {
+  LayoutDashboard,
+  FileText,
+  Settings,
+  User,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  BarChart3,
+} from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -27,7 +36,8 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
     { name: dict.admin.settings, href: `/${locale}/dashboard/settings`, icon: Settings },
   ]
 
-  const adminLink = user.role === "ADMIN" ? { name: dict.admin.title, href: `/${locale}/admin`, icon: User } : null
+  const adminLink =
+    user.role === "ADMIN" ? { name: dict.admin.title, href: `/${locale}/admin`, icon: User } : null
 
   return (
     <motion.aside
@@ -41,7 +51,7 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <span className="text-sm font-bold text-primary-foreground">NS</span>
             </div>
-            <span className="text-lg font-semibold">Dashboard</span>
+            <span className="text-lg font-semibold">{dict.dashboard.title}</span>
           </Link>
         )}
         {collapsed && (
@@ -49,7 +59,12 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
             <span className="text-sm font-bold text-primary-foreground">NS</span>
           </div>
         )}
-        <Button variant="ghost" size="icon" className="hidden md:flex" onClick={() => setCollapsed(!collapsed)}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hidden md:flex"
+          onClick={() => setCollapsed(!collapsed)}
+        >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
@@ -104,7 +119,7 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
             )}
           >
             <LogOut className="h-5 w-5 shrink-0" />
-            {!collapsed && <span>Logout</span>}
+            {!collapsed && <span>{dict.admin.logout}</span>}
           </Button>
         </form>
       </div>

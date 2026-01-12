@@ -62,7 +62,11 @@ export function ForgotPasswordForm({ locale, dict }: ForgotPasswordFormProps) {
       </div>
 
       {isSuccess ? (
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="space-y-6"
+        >
           <div className="flex flex-col items-center gap-4 rounded-lg border border-border bg-muted/50 p-6">
             <CheckCircle2 className="h-12 w-12 text-green-500" />
             <p className="text-center text-sm text-muted-foreground">{t.success}</p>

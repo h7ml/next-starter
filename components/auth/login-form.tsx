@@ -33,6 +33,20 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
   })
 
   const t = dict.auth.login
+  const errorMap: Record<string, string> = {
+    "Authentication service not configured": t.errors.serviceUnavailable,
+    "Invalid email or password": t.errors.invalid,
+    "Invalid email address": t.errors.invalidEmail,
+    "Password is required": t.errors.passwordRequired,
+    "Login failed": t.errors.failed,
+  }
+
+  const resolveErrorMessage = (message?: string) => {
+    if (!message) {
+      return t.errors.failed
+    }
+    return errorMap[message] || t.errors.failed
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,14 +66,14 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.error || t.errors.invalid)
+        setError(resolveErrorMessage(data?.error))
         return
       }
 
       router.push(`/${locale}/dashboard`)
       router.refresh()
     } catch {
-      setError(t.errors.invalid)
+      setError(t.errors.failed)
     } finally {
       setIsLoading(false)
     }
@@ -140,13 +154,18 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
             <Checkbox
               id="remember"
               checked={formData.rememberMe}
-              onCheckedChange={(checked) => setFormData({ ...formData, rememberMe: checked as boolean })}
+              onCheckedChange={(checked) =>
+                setFormData({ ...formData, rememberMe: checked as boolean })
+              }
             />
             <Label htmlFor="remember" className="text-sm font-normal">
               {t.rememberMe}
             </Label>
           </div>
-          <Link href={`/${locale}/forgot-password`} className="text-sm font-medium text-primary hover:text-primary/80">
+          <Link
+            href={`/${locale}/forgot-password`}
+            className="text-sm font-medium text-primary hover:text-primary/80"
+          >
             {t.forgotPassword}
           </Link>
         </div>
@@ -171,7 +190,10 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
 
         <p className="text-center text-sm text-muted-foreground">
           {t.noAccount}{" "}
-          <Link href={`/${locale}/register`} className="font-medium text-primary hover:text-primary/80">
+          <Link
+            href={`/${locale}/register`}
+            className="font-medium text-primary hover:text-primary/80"
+          >
             {t.register}
           </Link>
         </p>

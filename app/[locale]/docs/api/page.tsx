@@ -78,9 +78,7 @@ export default async function ApiPage({ params }: ApiPageProps) {
               <CardContent>
                 <p className="text-muted-foreground">{api.sections.authentication.content}</p>
                 <div className="mt-4 rounded-lg bg-muted p-4">
-                  <code className="font-mono text-sm">
-                    Authorization: Bearer YOUR_API_KEY
-                  </code>
+                  <code className="font-mono text-sm">Authorization: Bearer YOUR_API_KEY</code>
                 </div>
               </CardContent>
             </Card>

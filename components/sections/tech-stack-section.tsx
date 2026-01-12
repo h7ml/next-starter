@@ -15,7 +15,15 @@ const stack = [
     url: "https://nextjs.org",
     icon: (
       <svg viewBox="0 0 180 180" fill="none" className="h-5 w-5">
-        <mask id="mask0" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="180">
+        <mask
+          id="mask0"
+          style={{ maskType: "alpha" }}
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="180"
+          height="180"
+        >
           <circle cx="90" cy="90" r="90" fill="black" />
         </mask>
         <g mask="url(#mask0)">
@@ -27,11 +35,25 @@ const stack = [
           <rect x="115" y="54" width="12" height="72" fill="url(#paint1)" />
         </g>
         <defs>
-          <linearGradient id="paint0" x1="109" y1="116.5" x2="144.5" y2="160.5" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="paint0"
+            x1="109"
+            y1="116.5"
+            x2="144.5"
+            y2="160.5"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="white" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="paint1" x1="121" y1="54" x2="120.799" y2="106.875" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="paint1"
+            x1="121"
+            y1="54"
+            x2="120.799"
+            y2="106.875"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="white" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
@@ -183,7 +205,9 @@ const TechStackSection = ({ dict }: TechStackSectionProps) => {
   return (
     <section id="tech-stack" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center tracking-tight sm:text-4xl mb-16">{dict.techStack.title}</h2>
+        <h2 className="text-3xl font-bold text-center tracking-tight sm:text-4xl mb-16">
+          {dict.techStack.title}
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stack.map((item) => (
             <motion.div
@@ -196,7 +220,12 @@ const TechStackSection = ({ dict }: TechStackSectionProps) => {
               <div>
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
-                <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2"
+                >
                   <span>{dict.techStack.visitWebsite}</span>
                   <ExternalLink className="h-4 w-4" />
                 </a>

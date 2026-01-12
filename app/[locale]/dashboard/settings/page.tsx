@@ -27,76 +27,78 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">{dict.admin.settings}</h1>
-        <p className="mt-1 text-muted-foreground">Manage your account settings and preferences</p>
+        <h1 className="text-3xl font-bold">{dict.dashboard.settings}</h1>
+        <p className="mt-1 text-muted-foreground">{dict.dashboard.manageSettings}</p>
       </div>
 
       <div className="grid gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Profile</CardTitle>
-            <CardDescription>Update your personal information</CardDescription>
+            <CardTitle>{dict.dashboard.profile}</CardTitle>
+            <CardDescription>{dict.dashboard.updateProfile}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center gap-6">
               <Avatar className="h-20 w-20">
                 <AvatarImage src={user?.avatar || undefined} />
-                <AvatarFallback className="bg-primary text-2xl text-primary-foreground">{initials}</AvatarFallback>
+                <AvatarFallback className="bg-primary text-2xl text-primary-foreground">
+                  {initials}
+                </AvatarFallback>
               </Avatar>
               <div>
-                <Button variant="outline">Change Avatar</Button>
-                <p className="mt-2 text-xs text-muted-foreground">JPG, PNG or GIF. Max 2MB.</p>
+                <Button variant="outline">{dict.dashboard.changeAvatar}</Button>
+                <p className="mt-2 text-xs text-muted-foreground">{dict.dashboard.avatarHint}</p>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{dict.dashboard.name}</Label>
                 <Input id="name" defaultValue={user?.name || ""} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{dict.dashboard.email}</Label>
                 <Input id="email" type="email" defaultValue={user?.email} disabled />
               </div>
             </div>
 
-            <Button>Save Changes</Button>
+            <Button>{dict.dashboard.saveChanges}</Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Security</CardTitle>
-            <CardDescription>Manage your password and security settings</CardDescription>
+            <CardTitle>{dict.dashboard.security}</CardTitle>
+            <CardDescription>{dict.dashboard.managePassword}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">Current Password</Label>
+                <Label htmlFor="currentPassword">{dict.dashboard.currentPassword}</Label>
                 <Input id="currentPassword" type="password" />
               </div>
               <div />
               <div className="space-y-2">
-                <Label htmlFor="newPassword">New Password</Label>
+                <Label htmlFor="newPassword">{dict.dashboard.newPassword}</Label>
                 <Input id="newPassword" type="password" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">{dict.dashboard.confirmPassword}</Label>
                 <Input id="confirmPassword" type="password" />
               </div>
             </div>
 
-            <Button>Update Password</Button>
+            <Button>{dict.dashboard.updatePassword}</Button>
           </CardContent>
         </Card>
 
         <Card className="border-destructive/50">
           <CardHeader>
-            <CardTitle className="text-destructive">Danger Zone</CardTitle>
-            <CardDescription>Irreversible actions for your account</CardDescription>
+            <CardTitle className="text-destructive">{dict.dashboard.dangerZone}</CardTitle>
+            <CardDescription>{dict.dashboard.irreversibleActions}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="destructive">Delete Account</Button>
+            <Button variant="destructive">{dict.dashboard.deleteAccount}</Button>
           </CardContent>
         </Card>
       </div>

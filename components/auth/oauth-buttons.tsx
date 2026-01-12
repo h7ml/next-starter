@@ -47,7 +47,11 @@ export function OAuthButtons({ providers, isLoading, onOAuth, dict }: OAuthButto
               onClick={() => onOAuth(provider.id)}
               disabled={isLoading}
             >
-              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Icon className="mr-2 h-4 w-4" />}
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icon className="mr-2 h-4 w-4" />
+              )}
               {provider.name}
             </Button>
           )

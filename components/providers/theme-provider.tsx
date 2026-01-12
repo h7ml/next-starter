@@ -21,17 +21,14 @@ export function useColorTheme() {
 }
 
 function ColorThemeProvider({ children }: { children: React.ReactNode }) {
-  const [colorTheme, setColorThemeState] = useState<ColorTheme>("zinc")
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    const saved = localStorage.getItem("color-theme") as ColorTheme | null
-    if (saved && colorThemes[saved]) {
-      setColorThemeState(saved)
-      applyColorTheme(saved)
+  const [colorTheme, setColorThemeState] = useState<ColorTheme>(() => {
+    if (typeof window === "undefined") {
+      return "zinc"
     }
-  }, [])
+
+    const saved = localStorage.getItem("color-theme") as ColorTheme | null
+    return saved && colorThemes[saved] ? saved : "zinc"
+  })
 
   const applyColorTheme = (theme: ColorTheme) => {
     const root = document.documentElement
@@ -59,16 +56,17 @@ function ColorThemeProvider({ children }: { children: React.ReactNode }) {
     root.setAttribute("data-color-theme", theme)
   }
 
+  useEffect(() => {
+    applyColorTheme(colorTheme)
+  }, [colorTheme])
+
   const setColorTheme = (theme: ColorTheme) => {
     setColorThemeState(theme)
     localStorage.setItem("color-theme", theme)
-    applyColorTheme(theme)
   }
 
   // Listen for dark/light mode changes
   useEffect(() => {
-    if (!mounted) return
-
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === "class") {
@@ -79,12 +77,19 @@ function ColorThemeProvider({ children }: { children: React.ReactNode }) {
 
     observer.observe(document.documentElement, { attributes: true })
     return () => observer.disconnect()
-  }, [mounted, colorTheme])
+  }, [colorTheme])
 
-  return <ColorThemeContext.Provider value={{ colorTheme, setColorTheme }}>{children}</ColorThemeContext.Provider>
+  return (
+    <ColorThemeContext.Provider value={{ colorTheme, setColorTheme }}>
+      {children}
+    </ColorThemeContext.Provider>
+  )
 }
 
-export function ThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
   return (
     <NextThemesProvider {...props}>
       <ColorThemeProvider>{children}</ColorThemeProvider>

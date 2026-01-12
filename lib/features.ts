@@ -10,7 +10,7 @@ export const features = {
   // 数据库
   database: !!process.env.DATABASE_URL,
   // 邮件服务（用于找回密码等）
-  email: !!(process.env.SMTP_HOST && process.env.SMTP_USER),
+  email: !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
   // 文件上传
   fileUpload: !!process.env.BLOB_READ_WRITE_TOKEN,
   // Redis 缓存

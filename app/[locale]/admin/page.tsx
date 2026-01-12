@@ -2,6 +2,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, FileText, TrendingUp, Activity } from "lucide-react"
 import type { Locale } from "@/lib/i18n/config"
+import { headers } from "next/headers"
 
 interface AdminPageProps {
   params: Promise<{ locale: Locale }>
@@ -11,28 +12,53 @@ export default async function AdminPage({ params }: AdminPageProps) {
   const { locale } = await params
   const dict = await getDictionary(locale)
 
+  const headersList = await headers()
+  const protocol = headersList.get("x-forwarded-proto") || "http"
+  const host = headersList.get("host") || "localhost:3000"
+  const baseUrl = `${protocol}://${host}`
+
+  let totalUsers = 0
+  let activeUsers = 0
+  let newUsers = 0
+  let totalPosts = 0
+
+  try {
+    const res = await fetch(`${baseUrl}/api/admin/stats`, {
+      cache: "no-store",
+    })
+    if (res.ok) {
+      const data = await res.json()
+      totalUsers = data.totalUsers || 0
+      activeUsers = data.activeUsers || 0
+      newUsers = data.newUsers || 0
+      totalPosts = data.totalPosts || 0
+    }
+  } catch (error) {
+    console.error("Failed to fetch stats:", error)
+  }
+
   const stats = [
     {
       title: dict.admin.totalUsers,
-      value: "1,234",
+      value: totalUsers.toLocaleString(),
       change: "+12%",
       icon: Users,
     },
     {
       title: dict.admin.activeUsers,
-      value: "892",
+      value: activeUsers.toLocaleString(),
       change: "+8%",
       icon: Activity,
     },
     {
       title: dict.admin.newUsers,
-      value: "156",
+      value: newUsers.toLocaleString(),
       change: "+23%",
       icon: TrendingUp,
     },
     {
-      title: locale === "zh" ? "总文章数" : "Total Posts",
-      value: "4,521",
+      title: dict.admin.totalPosts,
+      value: totalPosts.toLocaleString(),
       change: "+5%",
       icon: FileText,
     },
@@ -41,17 +67,22 @@ export default async function AdminPage({ params }: AdminPageProps) {
   const recentActivity = [
     {
       type: "user",
-      message: locale === "zh" ? "新用户注册: john@example.com" : "New user registered: john@example.com",
+      message:
+        locale === "zh" ? "新用户注册: john@example.com" : "New user registered: john@example.com",
       time: "2 min ago",
     },
     {
       type: "post",
-      message: locale === "zh" ? "新文章发布: Getting Started" : "New post published: Getting Started",
+      message:
+        locale === "zh" ? "新文章发布: Getting Started" : "New post published: Getting Started",
       time: "15 min ago",
     },
     {
       type: "user",
-      message: locale === "zh" ? "用户更新资料: jane@example.com" : "User updated profile: jane@example.com",
+      message:
+        locale === "zh"
+          ? "用户更新资料: jane@example.com"
+          : "User updated profile: jane@example.com",
       time: "1 hour ago",
     },
     {
@@ -70,9 +101,7 @@ export default async function AdminPage({ params }: AdminPageProps) {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold">{dict.admin.title}</h1>
-        <p className="mt-1 text-muted-foreground">
-          {locale === "zh" ? "系统概览和管理" : "System overview and management"}
-        </p>
+        <p className="mt-1 text-muted-foreground">{dict.admin.overview}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -89,7 +118,7 @@ export default async function AdminPage({ params }: AdminPageProps) {
                 </div>
               </div>
               <p className="mt-2 text-sm text-primary">
-                {stat.change} {locale === "zh" ? "较上月" : "vs last month"}
+                {stat.change} {dict.admin.vsLastMonth}
               </p>
             </CardContent>
           </Card>
@@ -99,18 +128,27 @@ export default async function AdminPage({ params }: AdminPageProps) {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>{locale === "zh" ? "最近活动" : "Recent Activity"}</CardTitle>
+            <CardTitle>{dict.admin.recentActivity}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start gap-4 rounded-lg border border-border p-4">
+                <div
+                  key={index}
+                  className="flex items-start gap-4 rounded-lg border border-border p-4"
+                >
                   <div
                     className={`rounded-full p-2 ${
-                      activity.type === "user" ? "bg-primary/10 text-primary" : "bg-chart-2/10 text-chart-2"
+                      activity.type === "user"
+                        ? "bg-primary/10 text-primary"
+                        : "bg-chart-2/10 text-chart-2"
                     }`}
                   >
-                    {activity.type === "user" ? <Users className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
+                    {activity.type === "user" ? (
+                      <Users className="h-4 w-4" />
+                    ) : (
+                      <FileText className="h-4 w-4" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm">{activity.message}</p>
@@ -124,7 +162,7 @@ export default async function AdminPage({ params }: AdminPageProps) {
 
         <Card>
           <CardHeader>
-            <CardTitle>{locale === "zh" ? "系统状态" : "System Status"}</CardTitle>
+            <CardTitle>{dict.admin.systemStatus}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -144,13 +182,7 @@ export default async function AdminPage({ params }: AdminPageProps) {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-primary">
-                      {service.status === "operational"
-                        ? locale === "zh"
-                          ? "运行中"
-                          : "Operational"
-                        : locale === "zh"
-                          ? "异常"
-                          : "Down"}
+                      {service.status === "operational" ? dict.admin.operational : dict.admin.down}
                     </p>
                     <p className="text-xs text-muted-foreground">{service.uptime} uptime</p>
                   </div>

@@ -75,7 +75,10 @@ export function Footer({ dict, locale }: FooterProps) {
             <ul className="mt-4 space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -88,7 +91,10 @@ export function Footer({ dict, locale }: FooterProps) {
             <ul className="mt-4 space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -101,7 +107,10 @@ export function Footer({ dict, locale }: FooterProps) {
             <ul className="mt-4 space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
                     {link.name}
                   </Link>
                 </li>

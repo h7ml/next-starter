@@ -11,10 +11,15 @@ export function generateSessionToken(): string {
 
 // 创建 Session
 export async function createSession(userId: string): Promise<string> {
+  if (!db) {
+    throw new Error("Database not configured. Please set DATABASE_URL environment variable.")
+  }
+
+  const prisma = db
   const token = generateSessionToken()
   const expires = new Date(Date.now() + authConfig.session.maxAge * 1000)
 
-  await db.session.create({
+  await prisma.session.create({
     data: {
       sessionToken: token,
       userId,
@@ -36,19 +41,24 @@ export async function createSession(userId: string): Promise<string> {
 
 // 获取当前 Session
 export async function getSession() {
+  if (!db) {
+    return null
+  }
+
+  const prisma = db
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value
 
   if (!token) return null
 
-  const session = await db.session.findUnique({
+  const session = await prisma.session.findUnique({
     where: { sessionToken: token },
     include: { user: true },
   })
 
   if (!session || session.expires < new Date()) {
     if (session) {
-      await db.session.delete({ where: { id: session.id } })
+      await prisma.session.delete({ where: { id: session.id } })
     }
     return null
   }
@@ -64,11 +74,16 @@ export async function getCurrentUser() {
 
 // 删除 Session（登出）
 export async function deleteSession() {
+  if (!db) {
+    return
+  }
+
+  const prisma = db
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value
 
   if (token) {
-    await db.session.deleteMany({ where: { sessionToken: token } })
+    await prisma.session.deleteMany({ where: { sessionToken: token } })
     cookieStore.delete(SESSION_COOKIE_NAME)
   }
 }

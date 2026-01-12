@@ -4,10 +4,14 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { notFound } from "next/navigation"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { locales, type Locale } from "@/lib/i18n/config"
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { getBaseUrl, getAlternateUrls, siteConfig } from "@/lib/seo"
-import { WebsiteJsonLd, OrganizationJsonLd, SoftwareApplicationJsonLd } from "@/components/seo/json-ld"
+import {
+  WebsiteJsonLd,
+  OrganizationJsonLd,
+  SoftwareApplicationJsonLd,
+} from "@/components/seo/json-ld"
 import "../globals.css"
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
@@ -20,10 +24,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const dict = await getDictionary(locale)
+  const currentLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale
+  const dict = await getDictionary(currentLocale)
   const baseUrl = getBaseUrl()
   const alternates = getAlternateUrls("")
 
@@ -34,7 +39,15 @@ export async function generateMetadata({
       template: `%s | ${dict.metadata.title}`,
     },
     description: dict.metadata.description,
-    keywords: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "shadcn/ui", "Starter Template"],
+    keywords: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Prisma",
+      "shadcn/ui",
+      "Starter Template",
+    ],
     authors: [{ name: siteConfig.name }],
     creator: siteConfig.name,
     publisher: siteConfig.name,
@@ -48,12 +61,12 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      locale: locale === "zh" ? "zh_CN" : "en_US",
-      alternateLocale: locale === "zh" ? "en_US" : "zh_CN",
+      locale: currentLocale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: currentLocale === "zh" ? "en_US" : "zh_CN",
       title: dict.metadata.title,
       description: dict.metadata.description,
       siteName: siteConfig.name,
-      url: `${baseUrl}/${locale}`,
+      url: `${baseUrl}/${currentLocale}`,
       images: [
         {
           url: `${baseUrl}/og-image.png`,
@@ -102,20 +115,21 @@ export default async function LocaleLayout({
   params,
 }: Readonly<{
   children: React.ReactNode
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }>) {
   const { locale } = await params
 
-  if (!locales.includes(locale)) {
+  if (!locales.includes(locale as Locale)) {
     notFound()
   }
+  const currentLocale = locale as Locale
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={currentLocale} suppressHydrationWarning>
       <head>
-        <WebsiteJsonLd locale={locale} />
+        <WebsiteJsonLd locale={currentLocale} />
         <OrganizationJsonLd />
-        <SoftwareApplicationJsonLd locale={locale} />
+        <SoftwareApplicationJsonLd locale={currentLocale} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

@@ -5,7 +5,7 @@ import { BookOpen, Eye, FileText, PenLine } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
-type StatsIconName = "fileText" | "bookOpen" | "penLine" | "eye"
+export type StatsIconName = "fileText" | "bookOpen" | "penLine" | "eye"
 
 const iconMap: Record<StatsIconName, LucideIcon> = {
   fileText: FileText,
@@ -23,10 +23,19 @@ interface StatsCardProps {
     value: number
     isPositive: boolean
   }
+  trendLabel?: string
   index?: number
 }
 
-export function StatsCard({ title, value, description, icon, trend, index = 0 }: StatsCardProps) {
+export function StatsCard({
+  title,
+  value,
+  description,
+  icon,
+  trend,
+  trendLabel,
+  index = 0,
+}: StatsCardProps) {
   const Icon = iconMap[icon]
 
   return (
@@ -43,9 +52,11 @@ export function StatsCard({ title, value, description, icon, trend, index = 0 }:
               <p className="text-3xl font-bold">{value}</p>
               {description && <p className="text-xs text-muted-foreground">{description}</p>}
               {trend && (
-                <p className={`text-xs font-medium ${trend.isPositive ? "text-green-500" : "text-red-500"}`}>
+                <p
+                  className={`text-xs font-medium ${trend.isPositive ? "text-green-500" : "text-red-500"}`}
+                >
                   {trend.isPositive ? "+" : ""}
-                  {trend.value}% from last month
+                  {trend.value}% {trendLabel || "from last month"}
                 </p>
               )}
             </div>

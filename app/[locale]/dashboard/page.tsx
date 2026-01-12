@@ -1,32 +1,97 @@
 import { PenLine } from "lucide-react"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { getCurrentUser } from "@/lib/auth/session"
-import { StatsCard } from "@/components/dashboard/stats-card"
+import { StatsCard, type StatsIconName } from "@/components/dashboard/stats-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import type { Locale } from "@/lib/i18n/config"
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
+import { db } from "@/lib/db"
+import Link from "next/link"
 
 interface DashboardPageProps {
-  params: Promise<{ locale: Locale }>
+  params: Promise<{ locale: string }>
 }
 
 export default async function DashboardPage({ params }: DashboardPageProps) {
   const { locale } = await params
-  const dict = await getDictionary(locale)
+  const currentLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale
+  const dict = await getDictionary(currentLocale)
   const user = await getCurrentUser()
 
-  const stats = [
-    { title: dict.dashboard.stats.totalPosts, value: 12, icon: "fileText", trend: { value: 12, isPositive: true } },
-    { title: dict.dashboard.stats.published, value: 8, icon: "bookOpen", trend: { value: 5, isPositive: true } },
-    { title: dict.dashboard.stats.drafts, value: 4, icon: "penLine" },
-    { title: dict.dashboard.stats.views, value: "2.4K", icon: "eye", trend: { value: 18, isPositive: true } },
-  ]
+  let totalPosts = 0
+  let publishedPosts = 0
+  let draftPosts = 0
+  let totalViews = 0
+  let recentPosts: Array<{
+    id: string
+    title: string
+    status: string
+    createdAt: Date
+  }> = []
 
-  const recentPosts = [
-    { id: 1, title: "Getting Started with Next.js 16", status: "published", date: "2024-01-10" },
-    { id: 2, title: "Building Modern UIs with shadcn/ui", status: "published", date: "2024-01-08" },
-    { id: 3, title: "Database Design with Prisma", status: "draft", date: "2024-01-05" },
-    { id: 4, title: "Authentication Best Practices", status: "draft", date: "2024-01-03" },
+  if (db && user) {
+    const [posts, viewsData] = await Promise.all([
+      db.post.findMany({
+        where: { authorId: user.id },
+        orderBy: { createdAt: "desc" },
+        take: 4,
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          createdAt: true,
+        },
+      }),
+      db.post.aggregate({
+        where: { authorId: user.id },
+        _count: true,
+        _sum: { views: true },
+      }),
+    ])
+
+    recentPosts = posts
+    totalPosts = viewsData._count
+    publishedPosts = await db.post.count({
+      where: { authorId: user.id, status: "PUBLISHED" },
+    })
+    draftPosts = await db.post.count({
+      where: { authorId: user.id, status: "DRAFT" },
+    })
+    totalViews = viewsData._sum.views || 0
+  }
+
+  const stats: Array<{
+    title: string
+    value: number | string
+    icon: StatsIconName
+    trend?: {
+      value: number
+      isPositive: boolean
+    }
+    trendLabel?: string
+  }> = [
+    {
+      title: dict.dashboard.stats.totalPosts,
+      value: totalPosts,
+      icon: "fileText",
+      trend: totalPosts > 0 ? { value: 12, isPositive: true } : undefined,
+      trendLabel: dict.dashboard.stats.fromLastMonth,
+    },
+    {
+      title: dict.dashboard.stats.published,
+      value: publishedPosts,
+      icon: "bookOpen",
+      trend: publishedPosts > 0 ? { value: 5, isPositive: true } : undefined,
+      trendLabel: dict.dashboard.stats.fromLastMonth,
+    },
+    { title: dict.dashboard.stats.drafts, value: draftPosts, icon: "penLine" },
+    {
+      title: dict.dashboard.stats.views,
+      value: totalViews > 1000 ? `${(totalViews / 1000).toFixed(1)}K` : totalViews,
+      icon: "eye",
+      trend: totalViews > 0 ? { value: 18, isPositive: true } : undefined,
+      trendLabel: dict.dashboard.stats.fromLastMonth,
+    },
   ]
 
   return (
@@ -55,19 +120,26 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           <CardContent>
             <div className="space-y-4">
               {recentPosts.map((post) => (
-                <div key={post.id} className="flex items-center justify-between rounded-lg border border-border p-4">
+                <div
+                  key={post.id}
+                  className="flex items-center justify-between rounded-lg border border-border p-4"
+                >
                   <div>
                     <p className="font-medium">{post.title}</p>
-                    <p className="text-sm text-muted-foreground">{post.date}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {new Date(post.createdAt).toLocaleDateString(currentLocale)}
+                    </p>
                   </div>
                   <span
                     className={`rounded-full px-2 py-1 text-xs font-medium ${
-                      post.status === "published"
+                      post.status === "PUBLISHED"
                         ? "bg-green-500/10 text-green-500"
                         : "bg-yellow-500/10 text-yellow-500"
                     }`}
                   >
-                    {post.status}
+                    {post.status === "PUBLISHED"
+                      ? dict.dashboard.stats.published
+                      : dict.dashboard.stats.drafts}
                   </span>
                 </div>
               ))}
@@ -83,11 +155,13 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             <div className="rounded-full bg-primary/10 p-4">
               <PenLine className="h-8 w-8 text-primary" />
             </div>
-            <p className="mt-4 text-center text-muted-foreground">Start writing your next blog post</p>
-            <Button className="mt-4">
-              <PenLine className="mr-2 h-4 w-4" />
-              New Post
-            </Button>
+            <p className="mt-4 text-center text-muted-foreground">{dict.dashboard.startWriting}</p>
+            <Link href={`/${currentLocale}/dashboard/posts/new`}>
+              <Button className="mt-4">
+                <PenLine className="mr-2 h-4 w-4" />
+                {dict.dashboard.newPost}
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

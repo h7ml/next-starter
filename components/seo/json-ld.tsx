@@ -24,7 +24,12 @@ export function WebsiteJsonLd({ locale }: JsonLdProps) {
     },
   }
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
 }
 
 export function SoftwareApplicationJsonLd({ locale }: JsonLdProps) {
@@ -54,14 +59,15 @@ export function SoftwareApplicationJsonLd({ locale }: JsonLdProps) {
     },
   }
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
 }
 
-export function BreadcrumbJsonLd({
-  items,
-}: {
-  items: { name: string; url: string }[]
-}) {
+export function BreadcrumbJsonLd({ items }: { items: { name: string; url: string }[] }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -73,7 +79,12 @@ export function BreadcrumbJsonLd({
     })),
   }
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
 }
 
 export function OrganizationJsonLd() {
@@ -88,5 +99,10 @@ export function OrganizationJsonLd() {
     sameAs: [siteConfig.links.github, siteConfig.links.twitter],
   }
 
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
 }

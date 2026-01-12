@@ -41,11 +41,38 @@ npm run dev
 # 生成 Prisma Client
 npx prisma generate
 
+# 生成 Prisma 字段类型定义（d.ts）
+npm run prisma:types
+
 # 推送 schema 到数据库
 npx prisma db push
 
 # 打开 Prisma Studio
 npx prisma studio
+```
+
+生成的类型定义会输出到 `types/prisma.d.ts`。
+
+## 代码质量
+
+```bash
+# 格式化代码
+npm run format
+
+# 检查格式
+npm run format:check
+
+# 代码检查（ESLint + TSLint）
+npm run lint
+
+# 修复 lint
+npm run lint:fix
+
+# TypeScript 类型检查
+npm run typecheck
+
+# 一键修复后完整检查
+npm run fix:check
 ```
 
 ## Docker 部署
@@ -87,14 +114,14 @@ docker run -p 3000:3000 next-starter
 
 ## 部署
 
-| 平台 | 指南 |
-|----------|-------|
-| Vercel | [Deploy](https://vercel.com/new) |
-| Cloudflare Pages | [Deploy](https://pages.cloudflare.com) |
-| Netlify | [Deploy](https://app.netlify.com/start) |
-| Railway | [Deploy](https://railway.app/new) |
-| Fly.io | `fly launch && fly deploy` |
-| Deno Deploy | [Deploy](https://deno.com/deploy) |
+| 平台             | 指南                                    |
+| ---------------- | --------------------------------------- |
+| Vercel           | [Deploy](https://vercel.com/new)        |
+| Cloudflare Pages | [Deploy](https://pages.cloudflare.com)  |
+| Netlify          | [Deploy](https://app.netlify.com/start) |
+| Railway          | [Deploy](https://railway.app/new)       |
+| Fly.io           | `fly launch && fly deploy`              |
+| Deno Deploy      | [Deploy](https://deno.com/deploy)       |
 
 ## 许可证
 

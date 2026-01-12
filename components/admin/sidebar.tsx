@@ -58,7 +58,12 @@ export function AdminSidebar({ locale, dict }: AdminSidebarProps) {
             <Shield className="h-4 w-4 text-destructive-foreground" />
           </div>
         )}
-        <Button variant="ghost" size="icon" className="hidden md:flex" onClick={() => setCollapsed(!collapsed)}>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hidden md:flex"
+          onClick={() => setCollapsed(!collapsed)}
+        >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
@@ -66,7 +71,8 @@ export function AdminSidebar({ locale, dict }: AdminSidebarProps) {
       <nav className="flex-1 space-y-1 p-4">
         {navigation.map((item) => {
           const isActive =
-            pathname === item.href || (item.href !== `/${locale}/admin` && pathname.startsWith(item.href))
+            pathname === item.href ||
+            (item.href !== `/${locale}/admin` && pathname.startsWith(item.href))
           return (
             <Link
               key={item.name}
@@ -91,7 +97,7 @@ export function AdminSidebar({ locale, dict }: AdminSidebarProps) {
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
         >
           <Home className="h-5 w-5 shrink-0" />
-          {!collapsed && <span>{locale === "zh" ? "返回用户面板" : "Back to Dashboard"}</span>}
+          {!collapsed && <span>{dict.admin.backToDashboard}</span>}
         </Link>
       </nav>
 
@@ -106,7 +112,7 @@ export function AdminSidebar({ locale, dict }: AdminSidebarProps) {
             )}
           >
             <LogOut className="h-5 w-5 shrink-0" />
-            {!collapsed && <span>Logout</span>}
+            {!collapsed && <span>{dict.admin.logout}</span>}
           </Button>
         </form>
       </div>

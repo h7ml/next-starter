@@ -1,10 +1,10 @@
 "use client"
 
-import { Bell, Search } from "lucide-react"
+import { Bell, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { LocaleSwitcher } from "@/components/ui/locale-switcher"
+import { CommandMenu } from "@/components/admin/command-menu"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 
@@ -12,16 +12,19 @@ interface AdminHeaderProps {
   locale: Locale
   dict: Dictionary
   user: { id: string; name?: string | null; email: string; role: string }
+  onMenuClick?: () => void
 }
 
-export function AdminHeader({ locale, dict, user }: AdminHeaderProps) {
+export function AdminHeader({ locale, dict, user, onMenuClick }: AdminHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card px-6">
-      <div className="flex items-center gap-4">
-        <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder={dict.admin.search} className="w-64 pl-10" />
-        </div>
+    <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card px-4 md:px-6">
+      <div className="flex items-center gap-2 md:gap-4">
+        {/* Mobile menu button */}
+        <Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenuClick}>
+          <Menu className="h-5 w-5" />
+        </Button>
+
+        <CommandMenu locale={locale} />
       </div>
 
       <div className="flex items-center gap-2">
@@ -30,7 +33,7 @@ export function AdminHeader({ locale, dict, user }: AdminHeaderProps) {
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-destructive" />
         </Button>
 
-        <LocaleSwitcher locale={locale} />
+        <LocaleSwitcher currentLocale={locale} />
         <ThemeToggle dict={dict} />
 
         <div className="ml-2 flex items-center gap-3 rounded-lg border border-border px-3 py-1.5">

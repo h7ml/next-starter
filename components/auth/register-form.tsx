@@ -35,6 +35,35 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
   })
 
   const t = dict.auth.register
+  const errorMap: Record<string, string> = {
+    "Registration service not configured": t.errors.serviceUnavailable,
+    "Email already registered": t.errors.emailExists,
+    "Invalid email address": t.errors.invalidEmail,
+    "Name must be at least 2 characters": t.errors.nameTooShort,
+    "Registration failed": t.errors.failed,
+  }
+
+  const resolveErrorMessage = (message?: string) => {
+    if (!message) {
+      return t.errors.failed
+    }
+    if (errorMap[message]) {
+      return errorMap[message]
+    }
+    if (message.startsWith("Password must be at least")) {
+      return t.errors.passwordTooShort
+    }
+    if (message.includes("uppercase")) {
+      return t.errors.passwordUppercase
+    }
+    if (message.includes("lowercase")) {
+      return t.errors.passwordLowercase
+    }
+    if (message.includes("number")) {
+      return t.errors.passwordNumber
+    }
+    return t.errors.failed
+  }
 
   // 密码强度验证
   const passwordChecks = {
@@ -77,14 +106,14 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.error || t.errors.emailExists)
+        setError(resolveErrorMessage(data?.error))
         return
       }
 
       router.push(`/${locale}/dashboard`)
       router.refresh()
     } catch {
-      setError(t.errors.emailExists)
+      setError(t.errors.failed)
     } finally {
       setIsLoading(false)
     }
@@ -177,8 +206,10 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
                   ) : (
                     <X className="h-3 w-3 text-muted-foreground" />
                   )}
-                  <span className={passwordChecks.length ? "text-green-500" : "text-muted-foreground"}>
-                    8+ characters
+                  <span
+                    className={passwordChecks.length ? "text-green-500" : "text-muted-foreground"}
+                  >
+                    {t.passwordChecks.length}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
@@ -187,8 +218,12 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
                   ) : (
                     <X className="h-3 w-3 text-muted-foreground" />
                   )}
-                  <span className={passwordChecks.uppercase ? "text-green-500" : "text-muted-foreground"}>
-                    Uppercase letter
+                  <span
+                    className={
+                      passwordChecks.uppercase ? "text-green-500" : "text-muted-foreground"
+                    }
+                  >
+                    {t.passwordChecks.uppercase}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
@@ -197,8 +232,12 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
                   ) : (
                     <X className="h-3 w-3 text-muted-foreground" />
                   )}
-                  <span className={passwordChecks.lowercase ? "text-green-500" : "text-muted-foreground"}>
-                    Lowercase letter
+                  <span
+                    className={
+                      passwordChecks.lowercase ? "text-green-500" : "text-muted-foreground"
+                    }
+                  >
+                    {t.passwordChecks.lowercase}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
@@ -207,7 +246,11 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
                   ) : (
                     <X className="h-3 w-3 text-muted-foreground" />
                   )}
-                  <span className={passwordChecks.number ? "text-green-500" : "text-muted-foreground"}>Number</span>
+                  <span
+                    className={passwordChecks.number ? "text-green-500" : "text-muted-foreground"}
+                  >
+                    {t.passwordChecks.number}
+                  </span>
                 </div>
               </div>
             )}
@@ -231,7 +274,9 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
           <Checkbox
             id="terms"
             checked={formData.agreeTerms}
-            onCheckedChange={(checked) => setFormData({ ...formData, agreeTerms: checked as boolean })}
+            onCheckedChange={(checked) =>
+              setFormData({ ...formData, agreeTerms: checked as boolean })
+            }
             required
           />
           <Label htmlFor="terms" className="text-sm font-normal leading-relaxed">
@@ -259,7 +304,10 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
 
         <p className="text-center text-sm text-muted-foreground">
           {t.hasAccount}{" "}
-          <Link href={`/${locale}/login`} className="font-medium text-primary hover:text-primary/80">
+          <Link
+            href={`/${locale}/login`}
+            className="font-medium text-primary hover:text-primary/80"
+          >
             {t.login}
           </Link>
         </p>

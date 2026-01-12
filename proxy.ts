@@ -6,7 +6,9 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // 检查路径是否已包含语言前缀
-  const pathnameHasLocale = locales.some((locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  )
 
   if (pathnameHasLocale) return NextResponse.next()
 

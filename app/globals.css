@@ -10,8 +10,9 @@
 
 /* 主题切换过渡动画 - 应用于所有颜色相关属性 */
 html {
-  transition: background-color var(--theme-transition-duration) ease-in-out, color var(--theme-transition-duration)
-    ease-in-out;
+  transition:
+    background-color var(--theme-transition-duration) ease-in-out,
+    color var(--theme-transition-duration) ease-in-out;
 }
 
 html * {

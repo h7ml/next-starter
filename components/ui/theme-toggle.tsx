@@ -45,7 +45,9 @@ export function ThemeToggle({ dict }: ThemeToggleProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuLabel className="text-xs text-muted-foreground">{dict.theme.mode}</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">
+          {dict.theme.mode}
+        </DropdownMenuLabel>
         <DropdownMenuItem onClick={() => setTheme("light")} className="gap-2">
           <Sun className="h-4 w-4" />
           {dict.theme.light}
@@ -64,7 +66,9 @@ export function ThemeToggle({ dict }: ThemeToggleProps) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuLabel className="text-xs text-muted-foreground">{dict.theme.color}</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs text-muted-foreground">
+          {dict.theme.color}
+        </DropdownMenuLabel>
         <div className="grid grid-cols-4 gap-1 p-2">
           {colorThemeNames.map((name) => (
             <button
@@ -76,7 +80,10 @@ export function ThemeToggle({ dict }: ThemeToggleProps) {
               )}
               title={colorThemes[name].label}
             >
-              <span className="h-5 w-5 rounded-full" style={{ backgroundColor: themeColorPreview[name] }} />
+              <span
+                className="h-5 w-5 rounded-full"
+                style={{ backgroundColor: themeColorPreview[name] }}
+              />
             </button>
           ))}
         </div>

@@ -60,7 +60,8 @@ export async function getGitHubProfile(code: string): Promise<OAuthProfile | nul
       },
     })
     const emails = await emailRes.json()
-    const primaryEmail = emails.find((e: { primary: boolean }) => e.primary)?.email || userData.email
+    const primaryEmail =
+      emails.find((e: { primary: boolean }) => e.primary)?.email || userData.email
 
     return {
       id: String(userData.id),

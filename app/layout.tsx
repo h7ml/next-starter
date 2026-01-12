@@ -5,7 +5,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Next Starter Template",
   description: "A production-ready Next.js starter template",
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export default function RootLayout({

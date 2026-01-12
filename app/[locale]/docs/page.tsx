@@ -81,7 +81,10 @@ export default async function DocsPage({ params }: DocsPageProps) {
                   <CardContent>
                     <ul className="space-y-2">
                       {section.items.map((item, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <li
+                          key={index}
+                          className="flex items-start gap-2 text-sm text-muted-foreground"
+                        >
                           <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary/50" />
                           <code className="font-mono text-foreground/80">{item}</code>
                         </li>
@@ -106,14 +109,17 @@ export default async function DocsPage({ params }: DocsPageProps) {
                   <span className="text-muted-foreground"># Database</span>
                   {"\n"}
                   <span className="text-chart-1">DATABASE_URL</span>=
-                  <span className="text-chart-2">"postgresql://user:password@localhost:5432/db"</span>
+                  <span className="text-chart-2">
+                    {'"postgresql://user:password@localhost:5432/db"'}
+                  </span>
                   {"\n\n"}
                   <span className="text-muted-foreground"># App</span>
                   {"\n"}
                   <span className="text-chart-1">NEXT_PUBLIC_APP_URL</span>=
-                  <span className="text-chart-2">"http://localhost:3000"</span>
+                  <span className="text-chart-2">{'"http://localhost:3000"'}</span>
                   {"\n"}
-                  <span className="text-chart-1">NODE_ENV</span>=<span className="text-chart-2">"development"</span>
+                  <span className="text-chart-1">NODE_ENV</span>=
+                  <span className="text-chart-2">{'"development"'}</span>
                 </code>
               </pre>
             </CardContent>

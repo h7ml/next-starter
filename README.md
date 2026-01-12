@@ -41,11 +41,38 @@ npm run dev
 # Generate Prisma client
 npx prisma generate
 
+# Generate Prisma field type definitions (d.ts)
+npm run prisma:types
+
 # Push schema to database
 npx prisma db push
 
 # Open Prisma Studio
 npx prisma studio
+```
+
+Generated type definitions are written to `types/prisma.d.ts`.
+
+## Code Quality
+
+```bash
+# Format code
+npm run format
+
+# Check formatting
+npm run format:check
+
+# Lint (ESLint + TSLint)
+npm run lint
+
+# Fix lint issues
+npm run lint:fix
+
+# Type check
+npm run typecheck
+
+# One-click fix then full checks
+npm run fix:check
 ```
 
 ## Docker Deployment
@@ -75,6 +102,7 @@ docker run -p 3000:3000 next-starter
 │   ├── db.ts           # Prisma client
 │   ├── env.ts          # Environment validation
 │   └── utils.ts        # Helper functions
+├── types/               # Generated Prisma d.ts types
 ├── prisma/              # Database
 │   └── schema.prisma   # Prisma schema
 ├── Dockerfile          # Docker configuration
@@ -87,14 +115,14 @@ docker run -p 3000:3000 next-starter
 
 ## Deploy
 
-| Platform | Guide |
-|----------|-------|
-| Vercel | [Deploy](https://vercel.com/new) |
-| Cloudflare Pages | [Deploy](https://pages.cloudflare.com) |
-| Netlify | [Deploy](https://app.netlify.com/start) |
-| Railway | [Deploy](https://railway.app/new) |
-| Fly.io | `fly launch && fly deploy` |
-| Deno Deploy | [Deploy](https://deno.com/deploy) |
+| Platform         | Guide                                   |
+| ---------------- | --------------------------------------- |
+| Vercel           | [Deploy](https://vercel.com/new)        |
+| Cloudflare Pages | [Deploy](https://pages.cloudflare.com)  |
+| Netlify          | [Deploy](https://app.netlify.com/start) |
+| Railway          | [Deploy](https://railway.app/new)       |
+| Fly.io           | `fly launch && fly deploy`              |
+| Deno Deploy      | [Deploy](https://deno.com/deploy)       |
 
 ## License
 
