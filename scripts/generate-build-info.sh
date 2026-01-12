@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 生成部署信息文件
 
 OUTPUT_FILE="lib/build-info.json"
