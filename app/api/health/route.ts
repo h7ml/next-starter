@@ -1,9 +1,38 @@
 import { NextResponse } from "next/server"
-import buildInfo from "@/lib/build-info.json"
+import { readFileSync } from "fs"
+import { join } from "path"
 
 export const runtime = "nodejs"
 
+// 默认构建信息
+const defaultBuildInfo = {
+  buildTime: "unknown",
+  platform: "unknown",
+  platformUrl: "unknown",
+  git: {
+    commitHash: "unknown",
+    commitShort: "unknown",
+    commitMessage: "unknown",
+    author: "unknown",
+    repo: "unknown",
+    branch: "unknown",
+  },
+}
+
+// 读取构建信息
+function getBuildInfo() {
+  try {
+    const buildInfoPath = join(process.cwd(), "lib", "build-info.json")
+    const content = readFileSync(buildInfoPath, "utf-8")
+    return JSON.parse(content)
+  } catch {
+    return defaultBuildInfo
+  }
+}
+
 export async function GET() {
+  const buildInfo = getBuildInfo()
+
   return NextResponse.json({
     status: "ok",
     timestamp: new Date().toISOString(),
