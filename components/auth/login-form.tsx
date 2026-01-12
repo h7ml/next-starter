@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -66,12 +67,16 @@ export function LoginForm({ locale, dict, oauthProviders }: LoginFormProps) {
       const data = await res.json()
 
       if (!res.ok) {
+        toast.error(resolveErrorMessage(data?.error))
         setError(resolveErrorMessage(data?.error))
         return
       }
 
-      // 登录成功，跳转到 dashboard
-      window.location.href = `/${locale}/dashboard`
+      // 登录成功，显示提示并跳转
+      toast.success(t.success)
+      setTimeout(() => {
+        window.location.href = `/${locale}/dashboard`
+      }, 500)
     } catch (err) {
       console.error("Login error:", err)
       setError(t.errors.failed)

@@ -166,6 +166,7 @@
       "noAccount": "Don't have an account?",
       "register": "Sign up",
       "orContinueWith": "Or continue with",
+      "success": "Login successful",
       "errors": {
         "invalid": "Invalid email or password",
         "required": "Email and password are required",
