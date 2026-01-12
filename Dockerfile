@@ -8,6 +8,7 @@ WORKDIR /app
 # Dependencies stage
 FROM base AS deps
 COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
+COPY prisma ./prisma
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
