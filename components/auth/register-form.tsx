@@ -37,6 +37,7 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
   const t = dict.auth.register
   const errorMap: Record<string, string> = {
     "Registration service not configured": t.errors.serviceUnavailable,
+    "User registration is disabled": t.errors.registrationDisabled,
     "Email already registered": t.errors.emailExists,
     "Invalid email address": t.errors.invalidEmail,
     "Name must be at least 2 characters": t.errors.nameTooShort,

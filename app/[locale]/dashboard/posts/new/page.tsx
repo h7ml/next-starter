@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,10 +17,11 @@ import {
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
-import type { Locale } from "@/lib/i18n/config"
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
 
-export default function NewPostPage({ params }: { params: { locale: Locale } }) {
+export default function NewPostPage() {
   const router = useRouter()
+  const params = useParams<{ locale?: string | string[] }>()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,11 +32,30 @@ export default function NewPostPage({ params }: { params: { locale: Locale } }) 
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
   })
 
-  const locale = params.locale
+  const rawLocale = Array.isArray(params.locale) ? params.locale[0] : params.locale
+  const normalizedLocale = rawLocale?.split("/")[0] || defaultLocale
+  const currentLocale = locales.includes(normalizedLocale as Locale)
+    ? (normalizedLocale as Locale)
+    : defaultLocale
+  const errorMap: Record<string, string> = {
+    "Title is required": "titleRequired",
+    "Content is required": "contentRequired",
+    "Not authenticated": "notAuthenticated",
+    "Database not configured": "serviceUnavailable",
+    "Failed to create post": "createFailed",
+  }
 
   useEffect(() => {
-    getDictionary(locale).then(setDict)
-  }, [locale])
+    getDictionary(currentLocale).then(setDict)
+  }, [currentLocale])
+
+  const resolveError = (message?: string) => {
+    if (!dict) return message || ""
+    if (!message) return dict.dashboard.createFailed
+    const key = errorMap[message]
+    if (key && dict.dashboard[key]) return dict.dashboard[key]
+    return dict.dashboard.createFailed
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,13 +71,14 @@ export default function NewPostPage({ params }: { params: { locale: Locale } }) 
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error || "Failed to create post")
+        setError(resolveError(data?.error))
+        return
       }
 
-      router.push(`/${locale}/dashboard/posts`)
+      router.push(`/${currentLocale}/dashboard/posts`)
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create post")
+      setError(resolveError(err instanceof Error ? err.message : undefined))
     } finally {
       setLoading(false)
     }
@@ -68,7 +89,7 @@ export default function NewPostPage({ params }: { params: { locale: Locale } }) 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link href={`/${locale}/dashboard/posts`}>
+        <Link href={`/${currentLocale}/dashboard/posts`}>
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -136,7 +157,7 @@ export default function NewPostPage({ params }: { params: { locale: Locale } }) 
               <Button type="submit" disabled={loading}>
                 {loading ? dict.dashboard.creating : dict.dashboard.createPost}
               </Button>
-              <Link href={`/${locale}/dashboard/posts`}>
+              <Link href={`/${currentLocale}/dashboard/posts`}>
                 <Button type="button" variant="outline">
                   {dict.dashboard.cancel}
                 </Button>

@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth/session"
+import { getSiteSettings } from "@/lib/site-settings"
 import { z } from "zod"
 
 const createPostSchema = z.object({
@@ -89,12 +90,17 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const { title, content, status } = createPostSchema.parse(body)
+    const settings = await getSiteSettings()
+    const effectiveStatus =
+      settings.postModeration && status === "PUBLISHED" && user.role !== "ADMIN"
+        ? "PENDING"
+        : status
 
     const post = await db.post.create({
       data: {
         title,
         content,
-        status,
+        status: effectiveStatus,
         authorId: user.id,
       },
       select: {

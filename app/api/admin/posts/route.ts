@@ -22,9 +22,14 @@ export async function GET(request: NextRequest) {
     const { searchParams } = request.nextUrl
     const search = searchParams.get("search") || ""
     const status = searchParams.get("status") || ""
+    const sortByParam = searchParams.get("sortBy") || "createdAt"
+    const sortOrderParam = searchParams.get("sortOrder")
     const page = Number.parseInt(searchParams.get("page") || "1")
     const limit = Number.parseInt(searchParams.get("limit") || "10")
     const skip = (page - 1) * limit
+    const allowedSortBy = new Set(["createdAt", "title", "status", "views"])
+    const sortBy = allowedSortBy.has(sortByParam) ? sortByParam : "createdAt"
+    const sortOrder = sortOrderParam === "asc" ? "asc" : "desc"
 
     const where: {
       title?: { contains: string; mode: "insensitive" }
@@ -44,7 +49,7 @@ export async function GET(request: NextRequest) {
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: "desc" },
+        orderBy: { [sortBy]: sortOrder },
         select: {
           id: true,
           title: true,

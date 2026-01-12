@@ -4,6 +4,7 @@ import { hashPassword, validatePassword } from "@/lib/auth/password"
 import { createSession } from "@/lib/auth/session"
 import { features } from "@/lib/features"
 import { getCountryFromIP } from "@/lib/utils/geolocation"
+import { getSiteSettings } from "@/lib/site-settings"
 import { z } from "zod"
 
 const registerSchema = z.object({
@@ -18,6 +19,11 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const settings = await getSiteSettings()
+    if (!settings.userRegistration) {
+      return NextResponse.json({ error: "User registration is disabled" }, { status: 403 })
+    }
+
     const body = await request.json()
     const { email, password, name } = registerSchema.parse(body)
 

@@ -7,6 +7,7 @@ import { sendEmail } from "@/lib/email/mailer"
 import { features } from "@/lib/features"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { defaultLocale, locales } from "@/lib/i18n/config"
+import { getSiteSettings } from "@/lib/site-settings"
 import { z } from "zod"
 
 const forgotPasswordSchema = z.object({
@@ -22,6 +23,7 @@ export async function POST(request: NextRequest) {
     const prisma = db
     const body = await request.json()
     const { email } = forgotPasswordSchema.parse(body)
+    const settings = await getSiteSettings()
 
     const referer = request.headers.get("referer") || ""
     let locale = defaultLocale
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
     const emailConfigured =
       features.email && process.env.SMTP_PASS && (process.env.SMTP_FROM || process.env.SMTP_USER)
 
-    if (emailConfigured) {
+    if (emailConfigured && settings.emailNotifications) {
       const dict = await getDictionary(locale)
       const appName = dict.metadata?.title || "App"
       const expiresInHours = Math.max(1, Math.round(authConfig.resetTokenExpiry / (60 * 60 * 1000)))

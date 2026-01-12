@@ -30,7 +30,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
   }> = []
 
   if (db && user) {
-    const [posts, viewsData] = await Promise.all([
+    const [posts, totalPostsCount, publishedCount, draftCount, viewsData] = await Promise.all([
       db.post.findMany({
         where: { authorId: user.id },
         orderBy: { createdAt: "desc" },
@@ -42,21 +42,23 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
           createdAt: true,
         },
       }),
+      db.post.count({ where: { authorId: user.id } }),
+      db.post.count({
+        where: { authorId: user.id, status: "PUBLISHED" },
+      }),
+      db.post.count({
+        where: { authorId: user.id, status: "DRAFT" },
+      }),
       db.post.aggregate({
         where: { authorId: user.id },
-        _count: true,
         _sum: { views: true },
       }),
     ])
 
     recentPosts = posts
-    totalPosts = viewsData._count
-    publishedPosts = await db.post.count({
-      where: { authorId: user.id, status: "PUBLISHED" },
-    })
-    draftPosts = await db.post.count({
-      where: { authorId: user.id, status: "DRAFT" },
-    })
+    totalPosts = totalPostsCount
+    publishedPosts = publishedCount
+    draftPosts = draftCount
     totalViews = viewsData._sum.views || 0
   }
 
@@ -134,12 +136,20 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                     className={`rounded-full px-2 py-1 text-xs font-medium ${
                       post.status === "PUBLISHED"
                         ? "bg-green-500/10 text-green-500"
-                        : "bg-yellow-500/10 text-yellow-500"
+                        : post.status === "PENDING"
+                          ? "bg-yellow-500/10 text-yellow-500"
+                          : post.status === "REJECTED"
+                            ? "bg-destructive/10 text-destructive"
+                            : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {post.status === "PUBLISHED"
-                      ? dict.dashboard.stats.published
-                      : dict.dashboard.stats.drafts}
+                      ? dict.dashboard.published
+                      : post.status === "PENDING"
+                        ? dict.dashboard.pending
+                        : post.status === "REJECTED"
+                          ? dict.dashboard.rejected
+                          : dict.dashboard.draft}
                   </span>
                 </div>
               ))}

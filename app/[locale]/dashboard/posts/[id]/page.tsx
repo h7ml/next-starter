@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,14 +17,11 @@ import {
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
-import type { Locale } from "@/lib/i18n/config"
+import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
 
-export default function EditPostPage({
-  params,
-}: {
-  params: { locale: Locale; id: string }
-}) {
+export default function EditPostPage() {
   const router = useRouter()
+  const params = useParams<{ locale?: string | string[]; id?: string | string[] }>()
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
   const [error, setError] = useState("")
@@ -36,8 +33,13 @@ export default function EditPostPage({
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
   })
 
-  const locale = params.locale
-  const postId = params.id
+  const rawLocale = Array.isArray(params.locale) ? params.locale[0] : params.locale
+  const normalizedLocale = rawLocale?.split("/")[0] || defaultLocale
+  const locale = locales.includes(normalizedLocale as Locale)
+    ? (normalizedLocale as Locale)
+    : defaultLocale
+  const rawPostId = Array.isArray(params.id) ? params.id[0] : params.id
+  const postId = typeof rawPostId === "string" ? rawPostId : ""
 
   useEffect(() => {
     getDictionary(locale).then(setDict)

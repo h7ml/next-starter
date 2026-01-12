@@ -39,6 +39,8 @@ interface PostsTableProps {
       actions: string
       published: string
       draft: string
+      pending: string
+      rejected: string
       view: string
       edit: string
       delete: string
@@ -109,6 +111,30 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
   }
 
   const hasAuthorInfo = posts.length > 0 && posts[0].author !== undefined
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "PUBLISHED":
+        return dict.dashboard.published
+      case "PENDING":
+        return dict.dashboard.pending
+      case "REJECTED":
+        return dict.dashboard.rejected
+      default:
+        return dict.dashboard.draft
+    }
+  }
+  const getStatusClass = (status: string) => {
+    switch (status) {
+      case "PUBLISHED":
+        return "bg-primary/10 text-primary"
+      case "PENDING":
+        return "bg-yellow-500/10 text-yellow-500"
+      case "REJECTED":
+        return "bg-destructive/10 text-destructive"
+      default:
+        return "bg-muted text-muted-foreground"
+    }
+  }
 
   const columns: Column<Post>[] = [
     {
@@ -139,13 +165,9 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
       width: hasAuthorInfo ? "12%" : "15%",
       render: (post) => (
         <span
-          className={`rounded-full px-2 py-1 text-xs font-medium ${
-            post.status === "PUBLISHED"
-              ? "bg-primary/10 text-primary"
-              : "bg-yellow-500/10 text-yellow-500"
-          }`}
+          className={`rounded-full px-2 py-1 text-xs font-medium ${getStatusClass(post.status)}`}
         >
-          {post.status === "PUBLISHED" ? dict.dashboard.published : dict.dashboard.draft}
+          {getStatusLabel(post.status)}
         </span>
       ),
     },
@@ -193,6 +215,8 @@ export function PostsTable({ locale, dict }: PostsTableProps) {
             deleting: dict.dashboard.deleting,
             published: dict.dashboard.published,
             draft: dict.dashboard.draft,
+            pending: dict.dashboard.pending,
+            rejected: dict.dashboard.rejected,
           }}
           onDelete={fetchPosts}
         />

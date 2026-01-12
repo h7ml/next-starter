@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth/session"
+import { getSiteSettings } from "@/lib/site-settings"
 import { z } from "zod"
 
 const updatePostSchema = z.object({
@@ -64,6 +65,15 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     const { id } = await context.params
     const body = await request.json()
     const data = updatePostSchema.parse(body)
+    const updateData: {
+      title?: string
+      content?: string
+      status?: "DRAFT" | "PUBLISHED" | "PENDING"
+    } = { ...data }
+    const settings = await getSiteSettings()
+    if (updateData.status === "PUBLISHED" && settings.postModeration && user.role !== "ADMIN") {
+      updateData.status = "PENDING"
+    }
 
     const isAdmin = user.role === "ADMIN"
     const where = isAdmin ? { id } : { id, authorId: user.id }
@@ -78,7 +88,7 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 
     const updatedPost = await db.post.update({
       where: { id },
-      data,
+      data: updateData,
       select: {
         id: true,
         title: true,

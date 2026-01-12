@@ -65,3 +65,17 @@ export interface Post {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface SiteSettings {
+  id: string
+  siteName: string
+  siteDescription: string
+  contactEmail: string
+  userRegistration: boolean
+  oauthLogin: boolean
+  emailNotifications: boolean
+  postModeration: boolean
+  maintenanceMode: boolean
+  createdAt: Date
+  updatedAt: Date
+}

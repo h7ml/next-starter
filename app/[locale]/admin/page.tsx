@@ -2,7 +2,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, FileText, TrendingUp, Activity } from "lucide-react"
 import type { Locale } from "@/lib/i18n/config"
-import { headers } from "next/headers"
+import { db } from "@/lib/db"
 
 interface AdminPageProps {
   params: Promise<{ locale: Locale }>
@@ -12,29 +12,32 @@ export default async function AdminPage({ params }: AdminPageProps) {
   const { locale } = await params
   const dict = await getDictionary(locale)
 
-  const headersList = await headers()
-  const protocol = headersList.get("x-forwarded-proto") || "http"
-  const host = headersList.get("host") || "localhost:3000"
-  const baseUrl = `${protocol}://${host}`
-
   let totalUsers = 0
   let activeUsers = 0
   let newUsers = 0
   let totalPosts = 0
 
-  try {
-    const res = await fetch(`${baseUrl}/api/admin/stats`, {
-      cache: "no-store",
-    })
-    if (res.ok) {
-      const data = await res.json()
-      totalUsers = data.totalUsers || 0
-      activeUsers = data.activeUsers || 0
-      newUsers = data.newUsers || 0
-      totalPosts = data.totalPosts || 0
+  if (db) {
+    try {
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+      const [totalUsersCount, activeUsersCount, newUsersCount, totalPostsCount] = await Promise.all(
+        [
+          db.user.count(),
+          db.user.count({ where: { status: "ACTIVE" } }),
+          db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+          db.post.count(),
+        ],
+      )
+
+      totalUsers = totalUsersCount
+      activeUsers = activeUsersCount
+      newUsers = newUsersCount
+      totalPosts = totalPostsCount
+    } catch (error) {
+      console.error("Failed to load admin stats:", error)
     }
-  } catch (error) {
-    console.error("Failed to fetch stats:", error)
   }
 
   const stats = [

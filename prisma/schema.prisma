@@ -109,3 +109,17 @@ enum PostStatus {
   PENDING
   REJECTED
 }
+
+model SiteSettings {
+  id                String   @id @default("global")
+  siteName          String
+  siteDescription   String
+  contactEmail      String
+  userRegistration  Boolean  @default(true)
+  oauthLogin        Boolean  @default(true)
+  emailNotifications Boolean @default(true)
+  postModeration    Boolean  @default(false)
+  maintenanceMode   Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

@@ -72,7 +72,7 @@ export default async function AnalyticsPage({ params }: AnalyticsPageProps) {
     { day: dict.dashboard.sunday, views: Math.floor(totalViews * 0.05) },
   ]
 
-  const maxViews = Math.max(...weeklyData.map((d) => d.views))
+  const maxViews = Math.max(1, ...weeklyData.map((d) => d.views))
 
   return (
     <div className="space-y-6">
@@ -128,24 +128,28 @@ export default async function AnalyticsPage({ params }: AnalyticsPageProps) {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {topPosts.map((post, index) => (
-                <div key={post.title} className="flex items-center gap-4">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-medium">
-                    {index + 1}
-                  </span>
-                  <div className="flex-1">
-                    <p className="font-medium line-clamp-1">{post.title}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {post.views.toLocaleString()} {dict.dashboard.viewsCount}
-                    </p>
-                  </div>
-                  {totalViews > 0 && (
-                    <span className="text-sm font-medium text-primary">
-                      {((post.views / totalViews) * 100).toFixed(0)}%
+              {topPosts.length === 0 ? (
+                <p className="text-sm text-muted-foreground">{dict.dashboard.noTopPosts}</p>
+              ) : (
+                topPosts.map((post, index) => (
+                  <div key={`${post.title}-${index}`} className="flex items-center gap-4">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-medium">
+                      {index + 1}
                     </span>
-                  )}
-                </div>
-              ))}
+                    <div className="flex-1">
+                      <p className="font-medium line-clamp-1">{post.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {post.views.toLocaleString()} {dict.dashboard.viewsCount}
+                      </p>
+                    </div>
+                    {totalViews > 0 && (
+                      <span className="text-sm font-medium text-primary">
+                        {((post.views / totalViews) * 100).toFixed(0)}%
+                      </span>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>

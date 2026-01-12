@@ -2,7 +2,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, FileText, Eye, TrendingUp } from "lucide-react"
 import type { Locale } from "@/lib/i18n/config"
-import { headers } from "next/headers"
+import { db } from "@/lib/db"
 
 interface AdminAnalyticsPageProps {
   params: Promise<{ locale: Locale }>
@@ -12,54 +12,126 @@ export default async function AdminAnalyticsPage({ params }: AdminAnalyticsPageP
   const { locale } = await params
   const dict = await getDictionary(locale)
 
-  const headersList = await headers()
-  const protocol = headersList.get("x-forwarded-proto") || "http"
-  const host = headersList.get("host") || "localhost:3000"
-  const baseUrl = `${protocol}://${host}`
-
   let monthlyData: Array<{ month: string; users: number; posts: number; views: number }> = []
   let topCountries: Array<{ country: string; users: number; percentage: number }> = []
 
-  try {
-    const res = await fetch(`${baseUrl}/api/admin/analytics`, {
-      cache: "no-store",
-    })
-    if (res.ok) {
-      const data = await res.json()
-      const userGrowth = data.userGrowth || []
-      const postStats = data.postStats || []
-      const viewStats = data.viewStats || []
+  const monthKeys = [
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+  ] as const
 
-      monthlyData = userGrowth.map((item: { month: string; users: number }, index: number) => ({
-        month: item.month,
-        users: item.users,
-        posts: postStats[index]?.posts || 0,
-        views: viewStats[index]?.views || 0,
+  const now = new Date()
+  const monthStartDates = Array.from({ length: 6 }, (_, index) => {
+    const monthOffset = now.getMonth() - 5 + index
+    return new Date(now.getFullYear(), monthOffset, 1)
+  })
+
+  const prisma = db
+  if (prisma) {
+    try {
+      monthlyData = await Promise.all(
+        monthStartDates.map(async (monthStart) => {
+          const monthEnd = new Date(
+            monthStart.getFullYear(),
+            monthStart.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+          )
+          const monthKey = monthKeys[monthStart.getMonth()]
+          const monthLabel = dict.admin.months[monthKey] || monthKey
+
+          const [userCount, postCount, totalViews] = await Promise.all([
+            prisma.user.count({
+              where: {
+                createdAt: {
+                  gte: monthStart,
+                  lte: monthEnd,
+                },
+              },
+            }),
+            prisma.post.count({
+              where: {
+                createdAt: {
+                  gte: monthStart,
+                  lte: monthEnd,
+                },
+              },
+            }),
+            prisma.post.aggregate({
+              where: {
+                createdAt: {
+                  gte: monthStart,
+                  lte: monthEnd,
+                },
+              },
+              _sum: {
+                views: true,
+              },
+            }),
+          ])
+
+          return {
+            month: monthLabel,
+            users: userCount,
+            posts: postCount,
+            views: totalViews._sum.views || 0,
+          }
+        }),
+      )
+
+      const countryData = await prisma.user.groupBy({
+        by: ["country"],
+        where: {
+          country: { not: null },
+        },
+        _count: true,
+        orderBy: {
+          _count: {
+            country: "desc",
+          },
+        },
+        take: 10,
+      })
+
+      const totalUsers = await prisma.user.count()
+      topCountries = countryData.map((item) => ({
+        country: item.country || "Unknown",
+        users: item._count,
+        percentage: totalUsers > 0 ? Math.round((item._count / totalUsers) * 100) : 0,
       }))
-
-      topCountries = data.topCountries || []
+    } catch (error) {
+      console.error("Failed to load admin analytics:", error)
     }
-  } catch (error) {
-    console.error("Failed to fetch analytics:", error)
-    const defaultMonths = [
-      dict.admin.months.jan,
-      dict.admin.months.feb,
-      dict.admin.months.mar,
-      dict.admin.months.apr,
-      dict.admin.months.may,
-      dict.admin.months.jun,
-    ]
-    monthlyData = defaultMonths.map((month, i) => ({
-      month,
-      users: 120 + i * 30,
-      posts: 45 + i * 10,
-      views: 12000 + i * 3000,
-    }))
   }
 
-  const maxUsers = Math.max(...monthlyData.map((d) => d.users))
-  const maxPosts = Math.max(...monthlyData.map((d) => d.posts))
-  const maxViews = Math.max(...monthlyData.map((d) => d.views))
+  if (monthlyData.length === 0) {
+    monthlyData = monthStartDates.map((monthStart) => {
+      const monthKey = monthKeys[monthStart.getMonth()]
+      return {
+        month: dict.admin.months[monthKey] || monthKey,
+        users: 0,
+        posts: 0,
+        views: 0,
+      }
+    })
+  }
+
+  const maxUsers = Math.max(1, ...monthlyData.map((d) => d.users))
+  const maxPosts = Math.max(1, ...monthlyData.map((d) => d.posts))
+  const maxViews = Math.max(1, ...monthlyData.map((d) => d.views))
 
   return (
     <div className="space-y-6">

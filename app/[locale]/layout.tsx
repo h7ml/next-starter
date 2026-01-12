@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
 import { notFound } from "next/navigation"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
@@ -12,10 +11,6 @@ import {
   OrganizationJsonLd,
   SoftwareApplicationJsonLd,
 } from "@/components/seo/json-ld"
-import "../globals.css"
-
-const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -125,18 +120,14 @@ export default async function LocaleLayout({
   const currentLocale = locale as Locale
 
   return (
-    <html lang={currentLocale} suppressHydrationWarning>
-      <head>
-        <WebsiteJsonLd locale={currentLocale} />
-        <OrganizationJsonLd />
-        <SoftwareApplicationJsonLd locale={currentLocale} />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <WebsiteJsonLd locale={currentLocale} />
+      <OrganizationJsonLd />
+      <SoftwareApplicationJsonLd locale={currentLocale} />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+        <Toaster />
+      </ThemeProvider>
+    </>
   )
 }

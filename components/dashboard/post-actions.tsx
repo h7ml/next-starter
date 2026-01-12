@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react"
+import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +33,8 @@ interface PostActionsProps {
     deleteConfirmDesc?: string
     cancel?: string
     confirm?: string
+    deleteFailed?: string
+    deleting?: string
   }
 }
 
@@ -53,7 +56,7 @@ export function PostActions({ postId, locale, dict }: PostActionsProps) {
       setShowDeleteDialog(false)
     } catch (error) {
       console.error("Delete error:", error)
-      alert("删除失败，请重试")
+      toast.error(dict.deleteFailed || "删除失败，请重试")
     } finally {
       setDeleting(false)
     }
@@ -90,7 +93,7 @@ export function PostActions({ postId, locale, dict }: PostActionsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>{dict.cancel || "取消"}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} disabled={deleting}>
-              {deleting ? "删除中..." : dict.confirm || "确认"}
+              {deleting ? dict.deleting || "删除中..." : dict.confirm || "确认"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

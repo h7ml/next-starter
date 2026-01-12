@@ -1,6 +1,7 @@
 import { db } from "@/lib/db"
 import { authConfig } from "./config"
 import { features } from "@/lib/features"
+import { getSiteSettings } from "@/lib/site-settings"
 import type { OAuthProvider } from "./config"
 
 interface OAuthProfile {
@@ -134,6 +135,11 @@ export async function handleOAuthSignIn(provider: OAuthProvider, profile: OAuthP
     throw new Error("Database not configured")
   }
 
+  const settings = await getSiteSettings()
+  if (!settings.oauthLogin) {
+    throw new Error("OAuth login is disabled")
+  }
+
   // 查找已存在的 OAuth 账号
   const existingAccount = await db.account.findUnique({
     where: {
@@ -165,6 +171,10 @@ export async function handleOAuthSignIn(provider: OAuthProvider, profile: OAuthP
       },
     })
     return existingUser
+  }
+
+  if (!settings.userRegistration) {
+    throw new Error("User registration is disabled")
   }
 
   // 创建新用户和 OAuth 账号

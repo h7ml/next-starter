@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react"
 import {
@@ -50,6 +51,8 @@ interface PostActionsWithPreviewProps {
     deleting?: string
     published?: string
     draft?: string
+    pending?: string
+    rejected?: string
   }
   onDelete?: () => void
 }
@@ -78,7 +81,7 @@ export function PostActionsWithPreview({
       if (onDelete) onDelete()
     } catch (error) {
       console.error("Delete error:", error)
-      alert(dict.deleteFailed || "删除失败，请重试")
+      toast.error(dict.deleteFailed || "删除失败，请重试")
     } finally {
       setDeleting(false)
     }
@@ -119,7 +122,11 @@ export function PostActionsWithPreview({
                 {dict.previewStatus || "状态"}:{" "}
                 {post.status === "PUBLISHED"
                   ? dict.published || "已发布"
-                  : dict.draft || "草稿"}
+                  : post.status === "PENDING"
+                    ? dict.pending || "待审核"
+                    : post.status === "REJECTED"
+                      ? dict.rejected || "已驳回"
+                      : dict.draft || "草稿"}
               </span>
               <span>
                 {dict.previewViews || "浏览"}: {post.views}

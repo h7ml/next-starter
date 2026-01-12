@@ -1,3 +1,4 @@
+import Script from "next/script"
 import { siteConfig, getBaseUrl } from "@/lib/seo"
 import type { Locale } from "@/lib/i18n/config"
 
@@ -25,7 +26,8 @@ export function WebsiteJsonLd({ locale }: JsonLdProps) {
   }
 
   return (
-    <script
+    <Script
+      id={`jsonld-website-${locale}`}
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
@@ -60,7 +62,8 @@ export function SoftwareApplicationJsonLd({ locale }: JsonLdProps) {
   }
 
   return (
-    <script
+    <Script
+      id={`jsonld-software-${locale}`}
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
@@ -80,7 +83,8 @@ export function BreadcrumbJsonLd({ items }: { items: { name: string; url: string
   }
 
   return (
-    <script
+    <Script
+      id="jsonld-breadcrumb"
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
@@ -100,7 +104,8 @@ export function OrganizationJsonLd() {
   }
 
   return (
-    <script
+    <Script
+      id="jsonld-organization"
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
