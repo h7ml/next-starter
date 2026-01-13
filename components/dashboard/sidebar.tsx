@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BarChart3,
+  Mail,
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -33,6 +34,7 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
     { name: dict.dashboard.overview, href: `/${locale}/dashboard`, icon: LayoutDashboard },
     { name: dict.admin.posts, href: `/${locale}/dashboard/posts`, icon: FileText },
     { name: dict.admin.analytics, href: `/${locale}/dashboard/analytics`, icon: BarChart3 },
+    { name: dict.dashboard.messages, href: `/${locale}/dashboard/messages`, icon: Mail },
     { name: dict.admin.settings, href: `/${locale}/dashboard/settings`, icon: Settings },
   ]
 

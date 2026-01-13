@@ -10,6 +10,7 @@ import {
   Settings,
   BarChart3,
   Shield,
+  Mail,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -34,6 +35,7 @@ export function AdminSidebar({ locale, dict }: AdminSidebarProps) {
     { name: dict.dashboard.overview, href: `/${locale}/admin`, icon: LayoutDashboard },
     { name: dict.admin.users, href: `/${locale}/admin/users`, icon: Users },
     { name: dict.admin.posts, href: `/${locale}/admin/posts`, icon: FileText },
+    { name: dict.admin.messages, href: `/${locale}/admin/messages`, icon: Mail },
     { name: dict.admin.analytics, href: `/${locale}/admin/analytics`, icon: BarChart3 },
     { name: dict.admin.settings, href: `/${locale}/admin/settings`, icon: Settings },
   ]

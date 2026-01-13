@@ -32,6 +32,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  messageRecipients MessageRecipient[]
+  messagesCreated   Message[] @relation("CreatedMessages")
+  messagesRevoked   Message[] @relation("RevokedMessages")
   
   // 密码重置
   resetToken       String?   @unique
@@ -90,6 +93,35 @@ model Post {
 
   @@index([authorId])
   @@index([status])
+}
+
+model Message {
+  id           String             @id @default(cuid())
+  title        String
+  content      String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  createdById  String
+  revokedAt    DateTime?
+  revokedById  String?
+  createdBy    User               @relation("CreatedMessages", fields: [createdById], references: [id], onDelete: Cascade)
+  revokedBy    User?              @relation("RevokedMessages", fields: [revokedById], references: [id])
+  recipients   MessageRecipient[]
+
+  @@index([createdById])
+  @@index([revokedAt])
+}
+
+model MessageRecipient {
+  messageId String
+  userId    String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([messageId, userId])
+  @@index([userId, readAt])
 }
 
 enum Role {

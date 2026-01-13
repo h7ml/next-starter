@@ -19,6 +19,9 @@ export interface User {
   accounts: Account[]
   sessions: Session[]
   posts: Post[]
+  messageRecipients: MessageRecipient[]
+  messagesCreated: Message[]
+  messagesRevoked: Message[]
   resetToken: string | null
   resetTokenExpiry: Date | null
 }
@@ -64,6 +67,29 @@ export interface Post {
   author: User
   createdAt: Date
   updatedAt: Date
+}
+
+export interface Message {
+  id: string
+  title: string
+  content: string
+  createdAt: Date
+  updatedAt: Date
+  createdById: string
+  revokedAt: Date | null
+  revokedById: string | null
+  createdBy: User
+  revokedBy: User | null
+  recipients: MessageRecipient[]
+}
+
+export interface MessageRecipient {
+  messageId: string
+  userId: string
+  readAt: Date | null
+  createdAt: Date
+  message: Message
+  user: User
 }
 
 export interface SiteSettings {

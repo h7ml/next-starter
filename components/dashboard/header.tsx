@@ -1,11 +1,20 @@
 "use client"
 
-import { Bell, Menu } from "lucide-react"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { Bell, Menu, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { LocaleSwitcher } from "@/components/ui/locale-switcher"
 import { DashboardCommandMenu } from "@/components/dashboard/dashboard-command-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 
@@ -17,6 +26,29 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ locale, dict, user, onMenuClick }: DashboardHeaderProps) {
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [latestMessage, setLatestMessage] = useState<{
+    id: string
+    title: string
+    createdAt: string
+    readAt: string | null
+  } | null>(null)
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const res = await fetch("/api/dashboard/messages/summary")
+        if (!res.ok) return
+        const data = await res.json()
+        setUnreadCount(data.unreadCount || 0)
+        setLatestMessage(data.latest || null)
+      } catch {
+        // ignore
+      }
+    }
+    fetchSummary()
+  }, [])
+
   const initials = user.name
     ? user.name
         .split(" ")
@@ -39,10 +71,48 @@ export function DashboardHeader({ locale, dict, user, onMenuClick }: DashboardHe
       <div className="flex items-center gap-3">
         <LocaleSwitcher currentLocale={locale} />
         <ThemeToggle dict={dict} />
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-primary" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-primary" />
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-72">
+            <div className="px-3 py-2">
+              <p className="text-sm font-medium">{dict.dashboard.messages}</p>
+              <p className="text-xs text-muted-foreground">
+                {dict.dashboard.unreadCount.replace("{count}", unreadCount.toString())}
+              </p>
+            </div>
+            <DropdownMenuSeparator />
+            {latestMessage ? (
+              <DropdownMenuItem asChild>
+                <Link href={`/${locale}/dashboard/messages/${latestMessage.id}`}>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium line-clamp-2">{latestMessage.title}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(latestMessage.createdAt).toLocaleString(locale)}
+                    </span>
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem className="text-sm text-muted-foreground" disabled>
+                {dict.dashboard.noMessages}
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href={`/${locale}/dashboard/messages`} className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                {dict.dashboard.viewAllMessages}
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div className="flex items-center gap-3 border-l border-border pl-3">
           <Avatar className="h-9 w-9">
             <AvatarImage src={user.avatar || undefined} alt={user.name || "User"} />

@@ -74,6 +74,7 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
       }),
     ],
     content: normalized,
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: "prose prose-sm max-w-none dark:prose-invert focus:outline-none",

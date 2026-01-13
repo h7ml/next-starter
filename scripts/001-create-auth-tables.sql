@@ -68,12 +68,40 @@ CREATE TABLE IF NOT EXISTS "Post" (
   CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- 创建站内信表
+CREATE TABLE IF NOT EXISTS "Message" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "title" TEXT NOT NULL,
+  "content" TEXT NOT NULL,
+  "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "createdById" TEXT NOT NULL,
+  "revokedAt" TIMESTAMP(3),
+  "revokedById" TEXT,
+  CONSTRAINT "Message_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "Message_revokedById_fkey" FOREIGN KEY ("revokedById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- 创建站内信收件人表
+CREATE TABLE IF NOT EXISTS "MessageRecipient" (
+  "messageId" TEXT NOT NULL,
+  "userId" TEXT NOT NULL,
+  "readAt" TIMESTAMP(3),
+  "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "MessageRecipient_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES "Message"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "MessageRecipient_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY ("messageId", "userId")
+);
+
 -- 创建索引
 CREATE UNIQUE INDEX IF NOT EXISTS "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 CREATE INDEX IF NOT EXISTS "Account_userId_idx" ON "Account"("userId");
 CREATE INDEX IF NOT EXISTS "Session_userId_idx" ON "Session"("userId");
 CREATE UNIQUE INDEX IF NOT EXISTS "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 CREATE INDEX IF NOT EXISTS "Post_authorId_idx" ON "Post"("authorId");
+CREATE INDEX IF NOT EXISTS "Message_createdById_idx" ON "Message"("createdById");
+CREATE INDEX IF NOT EXISTS "Message_revokedAt_idx" ON "Message"("revokedAt");
+CREATE INDEX IF NOT EXISTS "MessageRecipient_userId_readAt_idx" ON "MessageRecipient"("userId", "readAt");
 
 -- 创建管理员用户（密码: Admin123!）
 INSERT INTO "User" ("id", "email", "password", "name", "role", "emailVerified", "createdAt", "updatedAt")

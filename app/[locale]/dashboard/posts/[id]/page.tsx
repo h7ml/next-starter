@@ -33,6 +33,7 @@ export default function EditPostPage() {
     content: "",
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
   })
+  const [viewMode, setViewMode] = useState<"edit" | "preview" | "split">("split")
 
   const rawLocale = Array.isArray(params.locale) ? params.locale[0] : params.locale
   const normalizedLocale = rawLocale?.split("/")[0] || defaultLocale
@@ -147,25 +148,79 @@ export default function EditPostPage() {
               />
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div className="space-y-2">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <Label>{dict.dashboard.contentLabel}</Label>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={viewMode === "edit" ? "default" : "outline"}
+                    onClick={() => setViewMode("edit")}
+                  >
+                    {dict.dashboard.writeMode}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={viewMode === "preview" ? "default" : "outline"}
+                    onClick={() => setViewMode("preview")}
+                  >
+                    {dict.dashboard.previewMode}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={viewMode === "split" ? "default" : "outline"}
+                    onClick={() => setViewMode("split")}
+                  >
+                    {dict.dashboard.splitMode}
+                  </Button>
+                </div>
+              </div>
+
+              {viewMode === "split" && (
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <div className="space-y-2">
+                    <RichTextEditor
+                      value={formData.content}
+                      onChange={(content) => setFormData({ ...formData, content })}
+                      placeholder={dict.dashboard.contentPlaceholder}
+                      className="min-h-[320px]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{dict.dashboard.previewTitle}</Label>
+                    <div className="min-h-[320px] rounded-md border border-border bg-muted/20 p-4">
+                      <PostContent
+                        content={formData.content}
+                        emptyMessage={dict.dashboard.previewEmpty}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {viewMode === "edit" && (
                 <RichTextEditor
                   value={formData.content}
                   onChange={(content) => setFormData({ ...formData, content })}
                   placeholder={dict.dashboard.contentPlaceholder}
                   className="min-h-[320px]"
                 />
-              </div>
-              <div className="space-y-2">
-                <Label>{dict.dashboard.previewTitle}</Label>
-                <div className="min-h-[320px] rounded-md border border-border bg-muted/20 p-4">
-                  <PostContent
-                    content={formData.content}
-                    emptyMessage={dict.dashboard.previewEmpty}
-                  />
+              )}
+
+              {viewMode === "preview" && (
+                <div className="space-y-2">
+                  <Label>{dict.dashboard.previewTitle}</Label>
+                  <div className="min-h-[320px] rounded-md border border-border bg-muted/20 p-4">
+                    <PostContent
+                      content={formData.content}
+                      emptyMessage={dict.dashboard.previewEmpty}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="space-y-2">
