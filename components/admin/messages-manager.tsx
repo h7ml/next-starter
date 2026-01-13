@@ -14,12 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -125,7 +120,10 @@ export function AdminMessagesManager({ locale, dict }: AdminMessagesManagerProps
   }
 
   const isContentEmpty = (content: string) =>
-    content.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length === 0
+    content
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim().length === 0
 
   const fetchMessages = async () => {
     setLoading(true)
@@ -375,12 +373,7 @@ export function AdminMessagesManager({ locale, dict }: AdminMessagesManagerProps
           <Button type="button" size="sm" variant="outline" onClick={() => openPreview(item.id)}>
             {t.preview}
           </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            onClick={() => openEdit(item.id)}
-          >
+          <Button type="button" size="sm" variant="outline" onClick={() => openEdit(item.id)}>
             {t.edit}
           </Button>
           <Button
@@ -478,10 +471,20 @@ export function AdminMessagesManager({ locale, dict }: AdminMessagesManagerProps
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button type="button" size="sm" variant="outline" onClick={() => openPreview(item.id)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => openPreview(item.id)}
+                  >
                     {t.preview}
                   </Button>
-                  <Button type="button" size="sm" variant="outline" onClick={() => openEdit(item.id)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => openEdit(item.id)}
+                  >
                     {t.edit}
                   </Button>
                   <Button
@@ -624,7 +627,10 @@ export function AdminMessagesManager({ locale, dict }: AdminMessagesManagerProps
                         {t.searchAction}
                       </Button>
                       <span className="text-sm text-muted-foreground">
-                        {t.selectedUsers.replace("{count}", formData.recipientUserIds.length.toString())}
+                        {t.selectedUsers.replace(
+                          "{count}",
+                          formData.recipientUserIds.length.toString(),
+                        )}
                       </span>
                     </div>
 

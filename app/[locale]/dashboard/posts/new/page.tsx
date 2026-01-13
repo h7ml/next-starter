@@ -60,7 +60,10 @@ export default function NewPostPage() {
   }
 
   const isContentEmpty = (content: string) =>
-    content.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length === 0
+    content
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim().length === 0
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

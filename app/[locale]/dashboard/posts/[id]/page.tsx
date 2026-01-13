@@ -48,7 +48,10 @@ export default function EditPostPage() {
   }, [locale])
 
   const isContentEmpty = (content: string) =>
-    content.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim().length === 0
+    content
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim().length === 0
 
   useEffect(() => {
     if (!postId) return
