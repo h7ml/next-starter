@@ -5,16 +5,7 @@ import { useEffect, useMemo } from "react"
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Placeholder from "@tiptap/extension-placeholder"
-import {
-  Bold,
-  Italic,
-  Strikethrough,
-  List,
-  ListOrdered,
-  Quote,
-  Code,
-  Heading2,
-} from "lucide-react"
+import { Bold, Italic, Strikethrough, List, ListOrdered, Quote, Code, Heading2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -88,7 +79,7 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
   useEffect(() => {
     if (!editor) return
     if (normalized === editor.getHTML()) return
-    editor.commands.setContent(normalized, false)
+    editor.commands.setContent(normalized, { emitUpdate: false })
   }, [editor, normalized])
 
   return (
