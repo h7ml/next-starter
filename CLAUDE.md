@@ -7,6 +7,7 @@
 - Next.js 16 App Router + React
 - TypeScript + Tailwind CSS + shadcn/ui
 - Prisma ORM + PostgreSQL
+- 站内信（管理员发送、用户收件箱与已读状态）
 
 ## 常用命令
 
@@ -41,6 +42,18 @@ npx prisma studio
 ```
 
 - Prisma 字段类型定义输出：`types/prisma.d.ts`
+
+## 站内信功能
+
+- 数据表：`Message`、`MessageRecipient`（见 `prisma/schema.prisma`）
+- 管理端入口：`/{locale}/admin/messages`
+- 用户端入口：`/{locale}/dashboard/messages`
+- 读状态通过 `MessageRecipient.readAt` 记录
+
+## 后台功能清单
+
+- 用户端控制台：概览、文章管理、数据分析、设置、站内信收件箱
+- 管理端：用户管理、文章审核、数据分析、系统设置、站内信管理（创建/编辑/撤回）
 
 ## 环境变量
 

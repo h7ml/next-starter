@@ -14,6 +14,8 @@ A production-ready Next.js starter template with React, TypeScript, Tailwind CSS
 - **Lucide Icons** - Beautiful icon library
 - **Prisma** - Type-safe database ORM
 - **Docker** - Containerized deployments
+- **Rich Text Editor** - Tiptap-powered editor with preview modes
+- **Internal Messages** - Admin-created messages with user inbox + read status
 - **Multi-Platform** - Deploy to Vercel, Cloudflare, Netlify, Railway, Fly.io, and more
 
 ## Quick Start
@@ -52,6 +54,18 @@ npx prisma studio
 ```
 
 Generated type definitions are written to `types/prisma.d.ts`.
+
+## Internal Messages
+
+- Admins can create and manage internal messages, targeting all users, by role, by status, or by specific user list.
+- Users can read messages in `/{locale}/dashboard/messages`, with read/unread status tracking.
+- The dashboard bell surfaces the latest message and links to the inbox.
+
+## Admin & Dashboard Features
+
+- **Dashboard**: overview, posts management, analytics, settings, internal message inbox.
+- **Admin**: user management, post moderation, analytics, settings, internal message management (create/edit/revoke).
+- **Auth**: session-based login, admin-only routes, role checks enforced on server.
 
 ## Code Quality
 

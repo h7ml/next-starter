@@ -9,6 +9,7 @@
 - App Router 架构
 - TypeScript + Tailwind CSS + shadcn/ui
 - Prisma + PostgreSQL
+- 站内信系统（管理员发送、用户收件箱与已读状态）
 
 ## 基础命令
 
@@ -44,6 +45,18 @@ npm run fix:check
 - 管理员初始化脚本：`scripts/001-create-auth-tables.sql`
 - 密码哈希规则：`SHA-256(password + AUTH_SECRET)`
 - Prisma 字段类型定义输出：`types/prisma.d.ts`（执行 `npm run prisma:types`）
+
+## 站内信功能
+
+- 数据模型：`Message`、`MessageRecipient`
+- 管理端入口：`/{locale}/admin/messages`
+- 用户端入口：`/{locale}/dashboard/messages`
+- 读状态字段：`MessageRecipient.readAt`
+
+## 后台功能清单
+
+- 用户端控制台：概览、文章管理、数据分析、设置、站内信收件箱
+- 管理端：用户管理、文章审核、数据分析、系统设置、站内信管理（创建/编辑/撤回）
 
 ## 代码与组件约定
 
