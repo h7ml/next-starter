@@ -216,15 +216,23 @@ const TechStackSection = ({ dict }: TechStackSectionProps) => {
           {dict.techStack.title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stack.map((item) => (
+          {stack.map((item, index) => (
             <motion.div
               key={item.name}
-              className="p-4 bg-white rounded-lg shadow-md flex items-center space-x-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="group relative p-4 bg-white rounded-lg shadow-md flex items-center space-x-4 hover:bg-primary/10 transition-colors duration-300"
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
             >
-              {item.icon}
-              <div>
+              <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="absolute inset-0 rounded-lg animate-ping bg-primary/20" />
+              </div>
+              <div className="relative transition-transform duration-300 group-hover:scale-110 group-hover:text-primary">
+                {item.icon}
+              </div>
+              <div className="relative">
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 <p className="text-sm text-gray-500">{item.category}</p>
                 <a

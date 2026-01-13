@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/motion"
+import { CodeBlock } from "@/components/ui/code-block"
 
 const sectionIcons = {
   authentication: Key,
@@ -77,9 +78,11 @@ export default async function ApiPage({ params }: ApiPageProps) {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{api.sections.authentication.content}</p>
-                <div className="mt-4 rounded-lg bg-muted p-4">
-                  <code className="font-mono text-sm">Authorization: Bearer YOUR_API_KEY</code>
-                </div>
+                <CodeBlock
+                  code="Authorization: Bearer YOUR_API_KEY"
+                  language="text"
+                  className="mt-4"
+                />
               </CardContent>
             </Card>
           </FadeInStaggerItem>

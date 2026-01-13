@@ -16,6 +16,7 @@ A production-ready Next.js starter template with React, TypeScript, Tailwind CSS
 - **Docker** - Containerized deployments
 - **Rich Text Editor** - Tiptap-powered editor with preview modes
 - **Internal Messages** - Admin-created messages with user inbox + read status
+- **Theme & Locale** - Light/dark theme toggle + locale switcher
 - **Multi-Platform** - Deploy to Vercel, Cloudflare, Netlify, Railway, Fly.io, and more
 
 ## Quick Start
@@ -66,6 +67,8 @@ Generated type definitions are written to `types/prisma.d.ts`.
 - **Dashboard**: overview, posts management, analytics, settings, internal message inbox.
 - **Admin**: user management, post moderation, analytics, settings, internal message management (create/edit/revoke).
 - **Auth**: session-based login, admin-only routes, role checks enforced on server.
+- **Theme**: theme toggle available in header and dashboard.
+- **Locale**: locale switcher in header and dashboard.
 
 ## Code Quality
 

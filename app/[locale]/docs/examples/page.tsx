@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/motion"
+import { CodeBlock } from "@/components/ui/code-block"
+import { highlightCode } from "@/lib/highlight"
 
 const sectionIcons = {
   basicSetup: BookOpen,
@@ -38,6 +40,42 @@ export default async function ExamplesPage({ params }: ExamplesPageProps) {
     { key: "database" as const, ...examples.sections.database },
     { key: "deployment" as const, ...examples.sections.deployment },
   ]
+
+  const codeExamples = {
+    basicSetup: `// Install dependencies
+npm install
+
+// Run development server
+npm run dev`,
+    authentication: `import { signIn, signOut } from "@/lib/auth"
+
+// Sign in
+await signIn({ email, password })
+
+// Sign out
+await signOut()`,
+    database: `import { prisma } from "@/lib/db"
+
+// Query data
+const users = await prisma.user.findMany()
+
+// Create data
+const user = await prisma.user.create({
+  data: { email, name }
+})`,
+    deployment: `# Deploy to Vercel
+vercel deploy
+
+# Or use Docker
+docker compose up -d`,
+  }
+
+  const highlightedCode = {
+    basicSetup: await highlightCode(codeExamples.basicSetup, "bash"),
+    authentication: await highlightCode(codeExamples.authentication, "typescript"),
+    database: await highlightCode(codeExamples.database, "typescript"),
+    deployment: await highlightCode(codeExamples.deployment, "bash"),
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -87,42 +125,15 @@ export default async function ExamplesPage({ params }: ExamplesPageProps) {
                   </CardHeader>
                   <CardContent>
                     <p className="mb-4 text-muted-foreground">{section.content}</p>
-                    <div className="rounded-lg bg-muted p-4">
-                      <pre className="overflow-x-auto">
-                        <code className="font-mono text-sm">
-                          {section.key === "basicSetup" &&
-                            `// Install dependencies
-npm install
-
-// Run development server
-npm run dev`}
-                          {section.key === "authentication" &&
-                            `import { signIn, signOut } from "@/lib/auth"
-
-// Sign in
-await signIn({ email, password })
-
-// Sign out
-await signOut()`}
-                          {section.key === "database" &&
-                            `import { prisma } from "@/lib/db"
-
-// Query data
-const users = await prisma.user.findMany()
-
-// Create data
-const user = await prisma.user.create({
-  data: { email, name }
-})`}
-                          {section.key === "deployment" &&
-                            `# Deploy to Vercel
-vercel deploy
-
-# Or use Docker
-docker compose up -d`}
-                        </code>
-                      </pre>
-                    </div>
+                    <CodeBlock
+                      code={codeExamples[section.key]}
+                      language={
+                        section.key === "basicSetup" || section.key === "deployment"
+                          ? "bash"
+                          : "typescript"
+                      }
+                      highlightedHtml={highlightedCode[section.key] || undefined}
+                    />
                   </CardContent>
                 </Card>
               </FadeInStaggerItem>

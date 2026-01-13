@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -178,9 +179,12 @@ export function DataTable<T extends Record<string, any>>({
                 </tr>
               ) : (
                 visibleData.map((item, index) => (
-                  <tr
+                  <motion.tr
                     key={item.id || index}
-                    className="border-b border-border last:border-0 hover:bg-muted/50"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="group border-b border-border last:border-0 transition-colors hover:bg-muted/50"
                     style={
                       enableVirtualScroll
                         ? {
@@ -202,7 +206,7 @@ export function DataTable<T extends Record<string, any>>({
                         {column.render ? column.render(item) : item[column.key]}
                       </td>
                     ))}
-                  </tr>
+                  </motion.tr>
                 ))
               )}
             </tbody>

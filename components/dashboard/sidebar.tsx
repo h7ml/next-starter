@@ -14,7 +14,7 @@ import {
   BarChart3,
   Mail,
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
@@ -29,6 +29,27 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) {
   const pathname = usePathname()
   const [collapsed, setCollapsed] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const res = await fetch("/api/dashboard/messages?page=1&pageSize=100")
+        if (res.ok) {
+          const data = await res.json()
+          const count = (data.messages || []).filter(
+            (m: { readAt: string | null }) => !m.readAt,
+          ).length
+          setUnreadCount(count)
+        }
+      } catch (error) {
+        console.error("Failed to fetch unread count:", error)
+      }
+    }
+    fetchUnreadCount()
+    const interval = setInterval(fetchUnreadCount, 30000)
+    return () => clearInterval(interval)
+  }, [])
 
   const navigation = [
     { name: dict.dashboard.overview, href: `/${locale}/dashboard`, icon: LayoutDashboard },
@@ -79,14 +100,34 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-primary/10 hover:text-primary",
               )}
             >
-              <item.icon className="h-5 w-5 shrink-0" />
-              {!collapsed && <span>{item.name}</span>}
+              {isActive && (
+                <motion.div
+                  layoutId="activeNav"
+                  className="absolute inset-0 rounded-lg bg-primary/10"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <item.icon className="relative h-5 w-5 shrink-0 transition-transform group-hover:scale-110" />
+              {!collapsed && <span className="relative">{item.name}</span>}
+              {item.href === `/${locale}/dashboard/messages` && unreadCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className={cn(
+                    "relative flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground",
+                    collapsed ? "absolute -right-1 -top-1" : "ml-auto",
+                  )}
+                  style={collapsed ? { boxShadow: "0 0 0 2px hsl(var(--card))" } : {}}
+                >
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </motion.span>
+              )}
             </Link>
           )
         })}
@@ -97,14 +138,21 @@ export function DashboardSidebar({ locale, dict, user }: DashboardSidebarProps) 
             <Link
               href={adminLink.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 pathname.startsWith(adminLink.href)
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-primary/10 hover:text-primary",
               )}
             >
-              <adminLink.icon className="h-5 w-5 shrink-0" />
-              {!collapsed && <span>{adminLink.name}</span>}
+              {pathname.startsWith(adminLink.href) && (
+                <motion.div
+                  layoutId="activeNav"
+                  className="absolute inset-0 rounded-lg bg-primary/10"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <adminLink.icon className="relative h-5 w-5 shrink-0 transition-transform group-hover:scale-110" />
+              {!collapsed && <span className="relative">{adminLink.name}</span>}
             </Link>
           </>
         )}

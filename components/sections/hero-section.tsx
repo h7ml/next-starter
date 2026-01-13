@@ -15,37 +15,68 @@ export function HeroSection({ dict }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+      <motion.div
+        className="absolute inset-0 -z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-primary/20 blur-3xl"
+          animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-1/3 right-1/4 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
+          animate={{ x: [0, -30, 0], y: [0, 50, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
 
       <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15,
+              },
+            },
+          }}
           className="mx-auto max-w-3xl text-center"
         >
-          <Badge variant="secondary" className="mb-6 gap-1.5 px-3 py-1.5">
-            <Sparkles className="h-3.5 w-3.5" />
-            {dict.hero.badge}
-          </Badge>
+          <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+            <Badge variant="secondary" className="mb-6 gap-1.5 px-3 py-1.5">
+              <Sparkles className="h-3.5 w-3.5" />
+              {dict.hero.badge}
+            </Badge>
+          </motion.div>
 
-          <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          <motion.h1
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
+          >
             {dict.hero.title}{" "}
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-gradient">
               {dict.hero.titleHighlight}
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-6 text-pretty text-lg text-muted-foreground sm:text-xl">
+          <motion.p
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            className="mt-6 text-pretty text-lg text-muted-foreground sm:text-xl"
+          >
             {dict.hero.description}
-          </p>
+          </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Button size="lg" asChild>
+            <Button size="lg" variant="glow" asChild>
               <Link href="#deploy">
                 {dict.hero.cta}
                 <ArrowRight className="ml-2 h-4 w-4" />

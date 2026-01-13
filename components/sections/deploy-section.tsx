@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { CodeBlock } from "@/components/ui/code-block"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 
 interface DeploySectionProps {
@@ -44,6 +45,13 @@ export function DeploySection({ dict }: DeploySectionProps) {
       url: "https://deno.com/deploy",
     },
   ]
+
+  const dockerCode = `# Build and run with Docker Compose
+docker compose up -d
+
+# Or build manually
+docker build -t next-starter .
+docker run -p 3000:3000 next-starter`
 
   return (
     <section id="deploy" className="py-24 sm:py-32">
@@ -103,14 +111,9 @@ export function DeploySection({ dict }: DeploySectionProps) {
           className="mt-12 rounded-xl border border-border bg-muted/50 p-6"
         >
           <h3 className="font-semibold">{dict.deploy.dockerTitle}</h3>
-          <pre className="mt-4 overflow-x-auto rounded-lg bg-card p-4 font-mono text-sm">
-            <code className="text-muted-foreground">
-              <span className="text-primary"># Build and run with Docker Compose</span>
-              {"\n"}docker compose up -d{"\n\n"}
-              <span className="text-primary"># Or build manually</span>
-              {"\n"}docker build -t next-starter .{"\n"}docker run -p 3000:3000 next-starter
-            </code>
-          </pre>
+          <div className="mt-4">
+            <CodeBlock code={dockerCode} language="bash" />
+          </div>
         </motion.div>
       </div>
     </section>

@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/motion"
+import { CodeBlock } from "@/components/ui/code-block"
+import { highlightCode } from "@/lib/highlight"
 
 const sectionIcons = {
   gettingStarted: Rocket,
@@ -38,6 +40,15 @@ export default async function DocsPage({ params }: DocsPageProps) {
     { key: "structure" as const, ...docs.sections.structure },
     { key: "deployment" as const, ...docs.sections.deployment },
   ]
+
+  const envCode = `# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/db"
+
+# App
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"`
+
+  const envHtml = await highlightCode(envCode, "bash")
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,24 +115,12 @@ export default async function DocsPage({ params }: DocsPageProps) {
               <CardDescription>{docs.envDescription}</CardDescription>
             </CardHeader>
             <CardContent>
-              <pre className="overflow-x-auto rounded-lg bg-muted p-4 font-mono text-sm">
-                <code>
-                  <span className="text-muted-foreground"># Database</span>
-                  {"\n"}
-                  <span className="text-chart-1">DATABASE_URL</span>=
-                  <span className="text-chart-2">
-                    {'"postgresql://user:password@localhost:5432/db"'}
-                  </span>
-                  {"\n\n"}
-                  <span className="text-muted-foreground"># App</span>
-                  {"\n"}
-                  <span className="text-chart-1">NEXT_PUBLIC_APP_URL</span>=
-                  <span className="text-chart-2">{'"http://localhost:3000"'}</span>
-                  {"\n"}
-                  <span className="text-chart-1">NODE_ENV</span>=
-                  <span className="text-chart-2">{'"development"'}</span>
-                </code>
-              </pre>
+              <CodeBlock
+                code={envCode}
+                language="bash"
+                highlightedHtml={envHtml || undefined}
+                filename=".env"
+              />
             </CardContent>
           </Card>
         </FadeIn>

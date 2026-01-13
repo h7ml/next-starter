@@ -153,48 +153,65 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
         )}
 
         <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">{t.name}</Label>
+          <div className="relative">
             <Input
               id="name"
               type="text"
-              placeholder={t.namePlaceholder}
+              placeholder=" "
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               disabled={isLoading}
+              className="peer pt-6 pb-2 focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
+            <Label
+              htmlFor="name"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-all duration-300 peer-focus:top-2 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
+            >
+              {t.name}
+            </Label>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email">{t.email}</Label>
+          <div className="relative">
             <Input
               id="email"
               type="email"
-              placeholder={t.emailPlaceholder}
+              placeholder=" "
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
               disabled={isLoading}
+              className="peer pt-6 pb-2 focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
+            <Label
+              htmlFor="email"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-all duration-300 peer-focus:top-2 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
+            >
+              {t.email}
+            </Label>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">{t.password}</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder={t.passwordPlaceholder}
+                placeholder=" "
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
                 disabled={isLoading}
-                className="pr-10"
+                className="peer pt-6 pb-2 pr-10 focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
+              <Label
+                htmlFor="password"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-all duration-300 peer-focus:top-2 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
+              >
+                {t.password}
+              </Label>
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -257,17 +274,23 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">{t.confirmPassword}</Label>
+          <div className="relative">
             <Input
               id="confirmPassword"
               type="password"
-              placeholder={t.confirmPasswordPlaceholder}
+              placeholder=" "
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               required
               disabled={isLoading}
+              className="peer pt-6 pb-2 focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
+            <Label
+              htmlFor="confirmPassword"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-all duration-300 peer-focus:top-2 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs"
+            >
+              {t.confirmPassword}
+            </Label>
           </div>
         </div>
 
@@ -285,15 +308,27 @@ export function RegisterForm({ locale, dict, oauthProviders }: RegisterFormProps
           </Label>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading || !formData.agreeTerms}>
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {t.submitting}
-            </>
-          ) : (
-            t.submit
-          )}
+        <Button
+          type="submit"
+          className="group relative w-full overflow-hidden"
+          disabled={isLoading || !formData.agreeTerms}
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"
+            initial={{ x: "-100%" }}
+            whileHover={{ x: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          <span className="relative z-10 flex items-center justify-center">
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t.submitting}
+              </>
+            ) : (
+              t.submit
+            )}
+          </span>
         </Button>
 
         <OAuthButtons

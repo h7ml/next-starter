@@ -44,12 +44,20 @@ export function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
     >
-      <Card className="overflow-hidden">
-        <CardContent className="p-6">
+      <Card className="group relative overflow-hidden transition-shadow hover:shadow-lg hover:shadow-primary/10">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+        <CardContent className="relative p-6">
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <p className="text-sm font-medium text-muted-foreground">{title}</p>
-              <p className="text-3xl font-bold">{value}</p>
+              <motion.p
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                className="text-3xl font-bold"
+              >
+                {value}
+              </motion.p>
               {description && <p className="text-xs text-muted-foreground">{description}</p>}
               {trend && (
                 <p
@@ -65,6 +73,7 @@ export function StatsCard({
             </div>
           </div>
         </CardContent>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 to-primary opacity-0 transition-opacity group-hover:opacity-100" />
       </Card>
     </motion.div>
   )

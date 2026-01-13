@@ -78,12 +78,15 @@ export function FeaturesSection({ dict }: FeaturesSectionProps) {
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -8, scale: 1.02 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group"
             >
-              <Card className="h-full transition-colors hover:border-primary/50">
+              <Card variant="glass" className="h-full relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-transform duration-300 group-hover:scale-110">
                     <feature.icon className="h-5 w-5 text-primary" />
                   </div>
                   <CardTitle className="mt-4">{feature.title}</CardTitle>

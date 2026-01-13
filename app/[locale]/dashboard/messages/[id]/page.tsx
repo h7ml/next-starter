@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { PostContent } from "@/components/posts/post-content"
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/config"
@@ -21,7 +22,7 @@ export default function MessageDetailPage() {
   const router = useRouter()
   const params = useParams<{ locale?: string | string[]; id?: string | string[] }>()
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
+  const [error, setError] = useState<"" | "not_found" | "fetch_failed">("")
   const [message, setMessage] = useState<MessageDetail | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dict, setDict] = useState<any>(null)
@@ -44,11 +45,14 @@ export default function MessageDetailPage() {
     const fetchMessage = async () => {
       try {
         const res = await fetch(`/api/dashboard/messages/${messageId}`)
-        if (!res.ok) throw new Error("Failed to fetch message")
+        if (!res.ok) {
+          setError(res.status === 404 ? "not_found" : "fetch_failed")
+          return
+        }
         const data = await res.json()
         setMessage(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch message")
+        setError("fetch_failed")
       } finally {
         setLoading(false)
       }
@@ -79,13 +83,21 @@ export default function MessageDetailPage() {
           <ArrowLeft className="mr-2 h-4 w-4" />
           {dict.dashboard.back}
         </Button>
-        <p className="text-sm text-destructive">{error || dict.dashboard.messageNotFound}</p>
+        <p className="text-sm text-destructive">
+          {error === "not_found" ? dict.dashboard.messageNotFound : dict.dashboard.fetchFailed}
+        </p>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      key={messageId}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-6"
+    >
       <div className="flex items-center gap-4">
         <Link href={`/${locale}/dashboard/messages`}>
           <Button variant="ghost" size="icon">
@@ -103,6 +115,6 @@ export default function MessageDetailPage() {
       <div className="rounded-lg border border-border bg-card p-6">
         <PostContent content={message.content} emptyMessage={dict.dashboard.previewEmpty} />
       </div>
-    </div>
+    </motion.div>
   )
 }
