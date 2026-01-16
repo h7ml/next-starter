@@ -1,6 +1,4 @@
-import Link from "next/link"
-import { ArrowLeft, Book, Code, Database, Globe, Rocket } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Book, Code, Database, Globe, Rocket } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
 import type { Locale } from "@/lib/i18n/config"
@@ -51,18 +49,9 @@ NODE_ENV="development"`
   const envHtml = await highlightCode(envCode, "bash")
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="bg-background py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn>
-          <div className="mb-8">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href={`/${locale}`}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {docs.backHome}
-              </Link>
-            </Button>
-          </div>
-
           <div className="mb-12">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">

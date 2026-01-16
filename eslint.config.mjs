@@ -1,9 +1,7 @@
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals"
-import nextTypescript from "eslint-config-next/typescript"
 
 export default [
   ...nextCoreWebVitals,
-  ...nextTypescript,
   {
     files: ["**/*.cjs"],
     rules: {
@@ -11,6 +9,14 @@ export default [
     },
   },
   {
-    ignores: ["node_modules/**", ".next/**", "dist/**", "build/**", "out/**"],
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "dist/**",
+      "build/**",
+      "out/**",
+      "logs/**",
+      "next-env.d.ts",
+    ],
   },
 ]

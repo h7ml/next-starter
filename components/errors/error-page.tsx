@@ -1,18 +1,14 @@
-"use client"
-
 import Link from "next/link"
-import { motion } from "framer-motion"
 import {
   ArrowLeft,
-  RefreshCw,
   Home,
+  RefreshCw,
   AlertTriangle,
   Lock,
   Ban,
   FileQuestion,
   ServerCrash,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import type { Dictionary } from "@/lib/i18n/get-dictionary"
 
 type ErrorCode = "400" | "401" | "403" | "404" | "500"
@@ -43,6 +39,9 @@ export function ErrorPage({ code, dictionary, locale }: ErrorPageProps) {
   const Icon = errorIcons[code]
   const errorData = dictionary.errors[code]
   const gradientColor = errorColors[code]
+  const homeHref = `/${locale}`
+  const retryHref = `/${locale}/error/${code}`
+  const docsHref = `/${locale}/docs`
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-4">
@@ -59,19 +58,9 @@ export function ErrorPage({ code, dictionary, locale }: ErrorPageProps) {
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 flex flex-col items-center text-center"
-      >
+      <div className="relative z-10 flex flex-col items-center text-center">
         {/* Error code with icon */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="relative mb-8"
-        >
+        <div className="relative mb-8">
           <span className="text-[12rem] font-bold leading-none tracking-tighter text-foreground/5 sm:text-[16rem]">
             {code}
           </span>
@@ -80,59 +69,45 @@ export function ErrorPage({ code, dictionary, locale }: ErrorPageProps) {
               <Icon className="h-16 w-16 text-primary sm:h-20 sm:w-20" />
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Error message */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-8 max-w-md space-y-3"
-        >
+        <div className="mb-8 max-w-md space-y-3">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{errorData.title}</h1>
           <p className="text-lg text-muted-foreground">{errorData.description}</p>
           <p className="text-sm text-muted-foreground/70">{errorData.hint}</p>
-        </motion.div>
+        </div>
 
         {/* Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col gap-3 sm:flex-row"
-        >
-          <Button asChild size="lg">
-            <Link href={`/${locale}`}>
-              <Home className="mr-2 h-4 w-4" />
-              {dictionary.errors.backHome}
-            </Link>
-          </Button>
-          <Button variant="outline" size="lg" onClick={() => window.location.reload()}>
-            <RefreshCw className="mr-2 h-4 w-4" />
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href={homeHref}
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
+          >
+            <Home className="h-4 w-4" />
+            {dictionary.errors.backHome}
+          </Link>
+          <Link
+            href={retryHref}
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-border px-4 text-sm font-medium text-foreground"
+          >
+            <RefreshCw className="h-4 w-4" />
             {dictionary.errors.tryAgain}
-          </Button>
-        </motion.div>
+          </Link>
+        </div>
 
         {/* Quick links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 flex items-center gap-2 text-sm text-muted-foreground"
-        >
+        <div className="mt-12 flex items-center gap-2 text-sm text-muted-foreground">
           <ArrowLeft className="h-4 w-4" />
           <span>
             {locale === "zh" ? "或者访问" : "Or visit"}{" "}
-            <Link
-              href={`/${locale}/docs`}
-              className="text-primary underline-offset-4 hover:underline"
-            >
+            <Link href={docsHref} className="text-primary underline-offset-4 hover:underline">
               {dictionary.nav.docs}
             </Link>{" "}
             {locale === "zh" ? "获取帮助" : "for help"}
           </span>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   )
 }

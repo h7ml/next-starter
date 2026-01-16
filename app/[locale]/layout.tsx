@@ -50,8 +50,8 @@ export async function generateMetadata({
       canonical: `${baseUrl}/${locale}`,
       languages: alternates,
       types: {
-        "application/rss+xml": `${baseUrl}/feed.xml?lang=${locale}`,
-        "application/atom+xml": `${baseUrl}/atom.xml?lang=${locale}`,
+        "application/rss+xml": `${baseUrl}/${locale}/feed.xml`,
+        "application/atom+xml": `${baseUrl}/${locale}/atom.xml`,
       },
     },
     openGraph: {

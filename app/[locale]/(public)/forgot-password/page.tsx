@@ -12,7 +12,7 @@ export default async function ForgotPasswordPage({ params }: ForgotPasswordPageP
   const dict = await getDictionary(locale)
 
   return (
-    <AuthLayout locale={locale} dict={dict}>
+    <AuthLayout>
       <ForgotPasswordForm locale={locale} dict={dict} />
     </AuthLayout>
   )

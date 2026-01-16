@@ -11,9 +11,9 @@ interface FooterProps {
 export function Footer({ dict, locale }: FooterProps) {
   const footerLinks = {
     product: [
-      { name: dict.nav.features, href: "#features" },
-      { name: dict.nav.techStack, href: "#stack" },
-      { name: dict.nav.deploy, href: "#deploy" },
+      { name: dict.nav.features, href: `/${locale}#features` },
+      { name: dict.nav.techStack, href: `/${locale}#stack` },
+      { name: dict.nav.deploy, href: `/${locale}#deploy` },
     ],
     resources: [
       { name: dict.footer.documentation, href: `/${locale}/docs` },
@@ -59,7 +59,7 @@ export function Footer({ dict, locale }: FooterProps) {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href={`/feed.xml?lang=${locale}`}
+                href={`/${locale}/feed.xml`}
                 className="text-muted-foreground transition-colors hover:text-primary"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -117,7 +117,7 @@ export function Footer({ dict, locale }: FooterProps) {
               ))}
               <li>
                 <a
-                  href={`/feed.xml?lang=${locale}`}
+                  href={`/${locale}/feed.xml`}
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -127,7 +127,7 @@ export function Footer({ dict, locale }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`/atom.xml?lang=${locale}`}
+                  href={`/${locale}/atom.xml`}
                   className="text-sm text-muted-foreground transition-colors hover:text-primary"
                   target="_blank"
                   rel="noopener noreferrer"

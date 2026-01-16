@@ -13,7 +13,7 @@ export default async function ResetPasswordPage({ params }: ResetPasswordPagePro
   const dict = await getDictionary(locale)
 
   return (
-    <AuthLayout locale={locale} dict={dict}>
+    <AuthLayout>
       <Suspense fallback={<div className="animate-pulse">Loading...</div>}>
         <ResetPasswordForm locale={locale} dict={dict} />
       </Suspense>

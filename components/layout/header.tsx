@@ -21,9 +21,9 @@ export function Header({ locale, dict, user, authEnabled = true }: HeaderProps) 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navigation = [
-    { name: dict.nav.features, href: "#features" },
-    { name: dict.nav.techStack, href: "#stack" },
-    { name: dict.nav.deploy, href: "#deploy" },
+    { name: dict.nav.features, href: `/${locale}#features` },
+    { name: dict.nav.techStack, href: `/${locale}#stack` },
+    { name: dict.nav.deploy, href: `/${locale}#deploy` },
     { name: dict.nav.docs, href: `/${locale}/docs` },
   ]
 

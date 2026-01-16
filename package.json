@@ -42,7 +42,8 @@
   },
   "scripts": {
     "prebuild": "sh scripts/generate-build-info.sh",
-    "build": "next build",
+    "build": "next build --webpack",
+    "analyze": "ANALYZE=true next build --webpack",
     "dev": "next dev",
     "lint": "pnpm lint:eslint && pnpm lint:tslint",
     "lint:eslint": "eslint . --quiet",
@@ -143,6 +144,7 @@
     "@prisma/client": "^6.0.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "16.0.10",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.0.10",
     "prettier": "^3.3.3",

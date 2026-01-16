@@ -1,3 +1,9 @@
+import bundleAnalyzer from "@next/bundle-analyzer"
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -7,10 +13,18 @@ const nextConfig = {
     unoptimized: true,
   },
   output: "standalone",
+  serverExternalPackages: ["@prisma/client", "prisma"],
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? {
+            exclude: ["error"],
+          }
+        : false,
+  },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
-    serverComponentsExternalPackages: ["@prisma/client", "prisma"],
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)
