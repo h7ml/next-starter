@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # Base stage
-FROM node:20-slim AS base
+FROM node:20 AS base
 WORKDIR /app
+ENV NPM_CONFIG_REGISTRY=https://registry.npmjs.org/
 
 # Dependencies stage
 FROM base AS deps
