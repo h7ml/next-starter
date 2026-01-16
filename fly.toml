@@ -8,6 +8,10 @@ primary_region = 'nrt'
 
 [build]
 
+[deploy]
+  # 规避滚动更新需要额外机器导致的限额问题
+  strategy = "immediate"
+
 [http_service]
   internal_port = 8080
   force_https = true
