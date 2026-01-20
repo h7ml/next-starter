@@ -206,6 +206,7 @@ const demos = [
   { name: "Netlify", url: "https://next-starter-pro.netlify.app/" },
   { name: "Zeabur", url: "https://next-starter.zeabur.app/" },
   { name: "Fly.dev", url: "https://next-starter.fly.dev/" },
+  { name: "Render", url: "https://next-starter-75xy.onrender.com/" },
 ]
 
 const TechStackSection = ({ dict }: TechStackSectionProps) => {

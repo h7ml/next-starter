@@ -82,11 +82,11 @@
     "dockerTitle": "使用 Docker 快速开始",
     "platforms": {
       "vercel": "零配置部署，支持边缘函数",
-      "cloudflare": "全球边缘网络，支持 Workers",
       "netlify": "持续部署，支持无服务器",
       "railway": "基础设施即时部署",
       "flyio": "让应用运行在离用户最近的地方",
-      "deno": "边缘无服务器"
+      "deno": "边缘无服务器",
+      "render": "应用和网站的统一云平台"
     }
   },
   "footer": {

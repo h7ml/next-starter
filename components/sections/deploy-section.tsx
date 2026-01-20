@@ -18,31 +18,62 @@ export function DeploySection({ dict }: DeploySectionProps) {
       description: dict.deploy.platforms.vercel,
       url: "https://vercel.com/new",
       recommended: true,
-    },
-    {
-      name: "Cloudflare Pages",
-      description: dict.deploy.platforms.cloudflare,
-      url: "https://pages.cloudflare.com",
+      icon: (
+        <svg viewBox="0 0 76 76" fill="currentColor" className="h-8 w-8">
+          <path d="M38 0L76 76H0L38 0z" />
+        </svg>
+      ),
     },
     {
       name: "Netlify",
       description: dict.deploy.platforms.netlify,
       url: "https://app.netlify.com/start",
+      icon: (
+        <svg viewBox="0 0 256 256" fill="currentColor" className="h-8 w-8">
+          <path d="M128 0L256 128L128 256L0 128L128 0z" />
+        </svg>
+      ),
     },
     {
       name: "Railway",
       description: dict.deploy.platforms.railway,
       url: "https://railway.app/new",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-8 w-8">
+          <path d="M4 12h16M4 6h16M4 18h16" strokeLinecap="round" />
+        </svg>
+      ),
     },
     {
       name: "Fly.io",
       description: dict.deploy.platforms.flyio,
       url: "https://fly.io",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
+          <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
+        </svg>
+      ),
     },
     {
       name: "Deno Deploy",
       description: dict.deploy.platforms.deno,
       url: "https://deno.com/deploy",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="4" fill="hsl(var(--background))" />
+        </svg>
+      ),
+    },
+    {
+      name: "Render",
+      description: dict.deploy.platforms.render,
+      url: "https://render.com",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
+          <path d="M12 2L22 8.5V15.5L12 22L2 15.5V8.5L12 2z" />
+        </svg>
+      ),
     },
   ]
 
@@ -77,17 +108,20 @@ docker run -p 3000:3000 next-starter`
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Card
-                className={`h-full transition-all hover:border-primary/50 ${platform.recommended ? "ring-2 ring-primary/20" : ""}`}
+                className={`group h-full transition-all hover:border-primary/50 hover:shadow-lg ${platform.recommended ? "ring-2 ring-primary/20" : ""}`}
               >
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{platform.name}</CardTitle>
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="rounded-lg bg-primary/10 p-2 transition-colors group-hover:bg-primary/20">
+                      {platform.icon}
+                    </div>
                     {platform.recommended && (
                       <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-medium text-primary-foreground">
                         {dict.deploy.recommended}
                       </span>
                     )}
                   </div>
+                  <CardTitle className="text-lg">{platform.name}</CardTitle>
                   <CardDescription>{platform.description}</CardDescription>
                 </CardHeader>
                 <CardContent>

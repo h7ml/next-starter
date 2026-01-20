@@ -82,11 +82,11 @@
     "dockerTitle": "Quick Start with Docker",
     "platforms": {
       "vercel": "Zero-config deployment with edge functions",
-      "cloudflare": "Global edge network with Workers",
       "netlify": "Continuous deployment with serverless",
       "railway": "Infrastructure with instant deployments",
       "flyio": "Run apps close to users globally",
-      "deno": "Serverless at the edge"
+      "deno": "Serverless at the edge",
+      "render": "Unified cloud for apps and sites"
     }
   },
   "footer": {
