@@ -29,6 +29,9 @@ elif [ -n "$RAILWAY_ENVIRONMENT" ]; then
 elif [ -n "$FLY_APP_NAME" ]; then
   PLATFORM="Fly.io"
   PLATFORM_URL="${FLY_APP_NAME}.fly.dev"
+elif [ -n "$RENDER" ]; then
+  PLATFORM="Render"
+  PLATFORM_URL="${RENDER_EXTERNAL_URL:-unknown}"
 elif [ -n "$ZEABUR_ENVIRONMENT" ]; then
   PLATFORM="Zeabur"
   PLATFORM_URL="${ZEABUR_URL:-unknown}"
@@ -36,6 +39,9 @@ else
   PLATFORM="Local/Docker"
   PLATFORM_URL="localhost"
 fi
+
+# 导出环境变量供 Next.js 使用
+export NEXT_PUBLIC_BUILD_TIME="$BUILD_TIME"
 
 # 生成 JSON 文件
 cat > "$OUTPUT_FILE" << EOF

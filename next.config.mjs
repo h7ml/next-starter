@@ -5,10 +5,7 @@ if (process.env.ANALYZE === "true") {
     const { default: bundleAnalyzer } = await import("@next/bundle-analyzer")
     withBundleAnalyzer = bundleAnalyzer({ enabled: true })
   } catch (error) {
-    console.warn(
-      "Missing @next/bundle-analyzer. Install it to enable bundle analysis.",
-      error,
-    )
+    console.warn("Missing @next/bundle-analyzer. Install it to enable bundle analysis.", error)
   }
 }
 
@@ -32,6 +29,9 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
+  env: {
+    NEXT_PUBLIC_BUILD_TIME: process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOString(),
   },
 }
 

@@ -100,7 +100,8 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "license": "License",
-    "copyright": "All rights reserved."
+    "copyright": "All rights reserved.",
+    "deployTime": "Deployed"
   },
   "docs": {
     "title": "Documentation",

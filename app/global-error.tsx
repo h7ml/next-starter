@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 interface GlobalErrorProps {
   error: Error & { digest?: string }
   reset: () => void
@@ -22,13 +24,11 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             >
               Try again
             </button>
-            <a href="/" className="rounded-md border border-border px-4 py-2 text-foreground">
+            <Link href="/" className="rounded-md border border-border px-4 py-2 text-foreground">
               Go home
-            </a>
+            </Link>
           </div>
-          {error?.digest && (
-            <p className="text-xs text-muted-foreground">Digest: {error.digest}</p>
-          )}
+          {error?.digest && <p className="text-xs text-muted-foreground">Digest: {error.digest}</p>}
         </main>
       </body>
     </html>

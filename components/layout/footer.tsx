@@ -143,6 +143,12 @@ export function Footer({ dict, locale }: FooterProps) {
           <p className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} Next Starter. {dict.footer.copyright}
           </p>
+          {process.env.NEXT_PUBLIC_BUILD_TIME && (
+            <p className="mt-2 text-center text-xs text-muted-foreground">
+              {dict.footer.deployTime}:{" "}
+              {new Date(process.env.NEXT_PUBLIC_BUILD_TIME).toLocaleString(locale)}
+            </p>
+          )}
         </div>
       </div>
     </footer>
